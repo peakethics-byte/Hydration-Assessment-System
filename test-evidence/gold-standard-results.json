@@ -1,0 +1,680 @@
+{
+  "meta": {
+    "environment": "Development (local, in-memory PostgreSQL / PGlite)",
+    "build": "wecanh2o-hydration-assessment 1.0.0",
+    "versions": "A-ASM-1.0, A-SCR-1.0, A-HGA-1.0 (DRAFT fixture), A-REC-1.0 (DRAFT fixture)",
+    "tester": "Automated run, reviewed by Gwen Lavarias",
+    "date": "2026-10-29T01:50:47.483Z",
+    "total": 82,
+    "passed": 82
+  },
+  "rows": [
+    {
+      "testId": "TST-GS-A1 (scoring)",
+      "requirement": "Document #1; TST-GS",
+      "fixture": "Profile A - Strong alignment",
+      "expected": "C1 20.0, C2 15.0, C3 15.0, C4 15.0, C5 10.0, C6 10.0, C8 15.0; HGI 100.0; Minimal Gap",
+      "actual": "C1 20.0, C2 15.0, C3 15.0, C4 15.0, C5 10.0, C6 10.0, C8 15.0; HGI 100.0 (internal 100); Minimal Gap",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-A1 (HGA)",
+      "requirement": "Document #3; TST-GS-H1..H3",
+      "fixture": "Profile A - Strong alignment",
+      "expected": "Findings in order: none; strengths C1, C2, C3, C4, C5, C6, C8",
+      "actual": "Findings in order: none; strengths C1, C2, C3, C4, C5, C6, C8",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-A1 (IHS)",
+      "requirement": "IHS-003..IHS-011; TST-IHS-001..006",
+      "fixture": "Profile A - Strong alignment",
+      "expected": "Pathways none; no product (F); all Suggested by Rules Engine",
+      "actual": "Pathways none; product none; statuses n/a",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-005",
+      "requirement": "Exact versioning",
+      "fixture": "Profile A - Strong alignment",
+      "expected": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0 stored on the record",
+      "actual": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-B1 (scoring)",
+      "requirement": "Document #1; TST-GS",
+      "fixture": "Profile B - Knowledge-to-action",
+      "expected": "C1 0.0, C2 15.0, C3 15.0, C4 15.0, C5 10.0, C6 10.0, C8 15.0; HGI 80.0; Mild Gap",
+      "actual": "C1 0.0, C2 15.0, C3 15.0, C4 15.0, C5 10.0, C6 10.0, C8 15.0; HGI 80.0 (internal 80); Mild Gap",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-B1 (HGA)",
+      "requirement": "Document #3; TST-GS-H1..H3",
+      "fixture": "Profile B - Knowledge-to-action",
+      "expected": "Findings in order: HGA-X03 (5) > HGA-C1 (6); strengths C2, C3, C4, C5, C6, C8",
+      "actual": "Findings in order: HGA-X03 (5) > HGA-C1 (6); strengths C2, C3, C4, C5, C6, C8",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-B1 (IHS)",
+      "requirement": "IHS-003..IHS-011; TST-IHS-001..006",
+      "fixture": "Profile B - Knowledge-to-action",
+      "expected": "Pathways HGA-X03->B, HGA-C1->B; no product (F); all Suggested by Rules Engine",
+      "actual": "Pathways HGA-X03->B, HGA-C1->B; product none; statuses Suggested by Rules Engine",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-005",
+      "requirement": "Exact versioning",
+      "fixture": "Profile B - Knowledge-to-action",
+      "expected": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0 stored on the record",
+      "actual": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-C1 (scoring)",
+      "requirement": "Document #1; TST-GS",
+      "fixture": "Profile C - Access barrier",
+      "expected": "C1 20.0, C2 0.0, C3 15.0, C4 15.0, C5 10.0, C6 10.0, C8 15.0; HGI 85.0; Mild Gap",
+      "actual": "C1 20.0, C2 0.0, C3 15.0, C4 15.0, C5 10.0, C6 10.0, C8 15.0; HGI 85.0 (internal 85); Mild Gap",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-C1 (HGA)",
+      "requirement": "Document #3; TST-GS-H1..H3",
+      "fixture": "Profile C - Access barrier",
+      "expected": "Findings in order: HGA-C2 (2); strengths C1, C3, C4, C5, C6, C8",
+      "actual": "Findings in order: HGA-C2 (2); strengths C1, C3, C4, C5, C6, C8",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-C1 (IHS)",
+      "requirement": "IHS-003..IHS-011; TST-IHS-001..006",
+      "fixture": "Profile C - Access barrier",
+      "expected": "Pathways HGA-C2->C; no product (F); all Suggested by Rules Engine",
+      "actual": "Pathways HGA-C2->C; product none; statuses Suggested by Rules Engine",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-005",
+      "requirement": "Exact versioning",
+      "fixture": "Profile C - Access barrier",
+      "expected": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0 stored on the record",
+      "actual": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-D1 (scoring)",
+      "requirement": "Document #1; TST-GS",
+      "fixture": "Profile D1 - High exposure, weak adaptation (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "C1 20.0, C2 15.0, C3 15.0, C4 12.5, C5 10.0, C6 10.0, C8 15.0; HGI 97.5; Minimal Gap",
+      "actual": "C1 20.0, C2 15.0, C3 15.0, C4 12.5, C5 10.0, C6 10.0, C8 15.0; HGI 97.5 (internal 97.5); Minimal Gap",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-D1 (HGA)",
+      "requirement": "Document #3; TST-GS-H1..H3",
+      "fixture": "Profile D1 - High exposure, weak adaptation (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "Findings in order: HGA-X06 (3) > HGA-C4Q1 (3); strengths C1, C2, C3, C4, C5, C6, C8",
+      "actual": "Findings in order: HGA-X06 (3) > HGA-C4Q1 (3); strengths C1, C2, C3, C4, C5, C6, C8",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-D1 (IHS)",
+      "requirement": "IHS-003..IHS-011; TST-IHS-001..006",
+      "fixture": "Profile D1 - High exposure, weak adaptation (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "Pathways HGA-X06->D, HGA-C4Q1->B; no product (F); all Suggested by Rules Engine",
+      "actual": "Pathways HGA-X06->D, HGA-C4Q1->B; product none; statuses Suggested by Rules Engine",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-005",
+      "requirement": "Exact versioning",
+      "fixture": "Profile D1 - High exposure, weak adaptation (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0 stored on the record",
+      "actual": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-D1 (scoring)",
+      "requirement": "Document #1; TST-GS",
+      "fixture": "Profile D2 - Paired, low exposure (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "C1 20.0, C2 15.0, C3 15.0, C4 12.5, C5 10.0, C6 10.0, C8 15.0; HGI 97.5; Minimal Gap",
+      "actual": "C1 20.0, C2 15.0, C3 15.0, C4 12.5, C5 10.0, C6 10.0, C8 15.0; HGI 97.5 (internal 97.5); Minimal Gap",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-D1 (HGA)",
+      "requirement": "Document #3; TST-GS-H1..H3",
+      "fixture": "Profile D2 - Paired, low exposure (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "Findings in order: HGA-C4Q1 (6); strengths C1, C2, C3, C4, C5, C6, C8",
+      "actual": "Findings in order: HGA-C4Q1 (6); strengths C1, C2, C3, C4, C5, C6, C8",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-D1 (IHS)",
+      "requirement": "IHS-003..IHS-011; TST-IHS-001..006",
+      "fixture": "Profile D2 - Paired, low exposure (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "Pathways none; no product (F); all Suggested by Rules Engine",
+      "actual": "Pathways none; product none; statuses Suggested by Rules Engine",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-005",
+      "requirement": "Exact versioning",
+      "fixture": "Profile D2 - Paired, low exposure (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0 stored on the record",
+      "actual": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-E1 (scoring)",
+      "requirement": "Document #1; TST-GS",
+      "fixture": "Profile E - Safety despite favorable HGI (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "C1 20.0, C2 15.0, C3 15.0, C4 15.0, C5 10.0, C6 9.0, C8 15.0; HGI 99.0; Minimal Gap",
+      "actual": "C1 20.0, C2 15.0, C3 15.0, C4 15.0, C5 10.0, C6 9.0, C8 15.0; HGI 99.0 (internal 99); Minimal Gap",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-E1 (HGA)",
+      "requirement": "Document #3; TST-GS-H1..H3",
+      "fixture": "Profile E - Safety despite favorable HGI (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "Findings in order: HGA-X05 (1); strengths C1, C2, C3, C4, C5, C6, C8",
+      "actual": "Findings in order: HGA-X05 (1); strengths C1, C2, C3, C4, C5, C6, C8",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-E1 (IHS)",
+      "requirement": "IHS-003..IHS-011; TST-IHS-001..006",
+      "fixture": "Profile E - Safety despite favorable HGI (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "Pathways HGA-X05->E; no product (F); all Suggested by Rules Engine",
+      "actual": "Pathways HGA-X05->E; product none; statuses Suggested by Rules Engine",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-005",
+      "requirement": "Exact versioning",
+      "fixture": "Profile E - Safety despite favorable HGI (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0 stored on the record",
+      "actual": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-F1 (scoring)",
+      "requirement": "Document #1; TST-GS",
+      "fixture": "Profile F - Education need",
+      "expected": "C1 20.0, C2 15.0, C3 15.0, C4 15.0, C5 0.0, C6 10.0, C8 15.0; HGI 90.0; Minimal Gap",
+      "actual": "C1 20.0, C2 15.0, C3 15.0, C4 15.0, C5 0.0, C6 10.0, C8 15.0; HGI 90.0 (internal 90); Minimal Gap",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-F1 (HGA)",
+      "requirement": "Document #3; TST-GS-H1..H3",
+      "fixture": "Profile F - Education need",
+      "expected": "Findings in order: HGA-C5 (6); strengths C1, C2, C3, C4, C6, C8",
+      "actual": "Findings in order: HGA-C5 (6); strengths C1, C2, C3, C4, C6, C8",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-F1 (IHS)",
+      "requirement": "IHS-003..IHS-011; TST-IHS-001..006",
+      "fixture": "Profile F - Education need",
+      "expected": "Pathways HGA-C5->A; no product (F); all Suggested by Rules Engine",
+      "actual": "Pathways HGA-C5->A; product none; statuses Suggested by Rules Engine",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-005",
+      "requirement": "Exact versioning",
+      "fixture": "Profile F - Education need",
+      "expected": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0 stored on the record",
+      "actual": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-G1 (scoring)",
+      "requirement": "Document #1; TST-GS",
+      "fixture": "Profile G - Self-monitoring gap",
+      "expected": "C1 20.0, C2 15.0, C3 15.0, C4 15.0, C5 10.0, C6 10.0, C8 0.0; HGI 85.0; Mild Gap",
+      "actual": "C1 20.0, C2 15.0, C3 15.0, C4 15.0, C5 10.0, C6 10.0, C8 0.0; HGI 85.0 (internal 85); Mild Gap",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-G1 (HGA)",
+      "requirement": "Document #3; TST-GS-H1..H3",
+      "fixture": "Profile G - Self-monitoring gap",
+      "expected": "Findings in order: HGA-X04 (5) > HGA-C8 (6); strengths C1, C2, C3, C4, C5, C6",
+      "actual": "Findings in order: HGA-X04 (5) > HGA-C8 (6); strengths C1, C2, C3, C4, C5, C6",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-G1 (IHS)",
+      "requirement": "IHS-003..IHS-011; TST-IHS-001..006",
+      "fixture": "Profile G - Self-monitoring gap",
+      "expected": "Pathways HGA-X04->B, HGA-C8->B; no product (F); all Suggested by Rules Engine",
+      "actual": "Pathways HGA-X04->B, HGA-C8->B; product none; statuses Suggested by Rules Engine",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-005",
+      "requirement": "Exact versioning",
+      "fixture": "Profile G - Self-monitoring gap",
+      "expected": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0 stored on the record",
+      "actual": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-H1 (scoring)",
+      "requirement": "Document #1; TST-GS",
+      "fixture": "Profile H - Multiple gaps / priority ordering (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "C1 5.0, C2 0.0, C3 12.0, C4 12.5, C5 10.0, C6 8.0, C8 15.0; HGI 62.5; Moderate Gap",
+      "actual": "C1 5.0, C2 0.0, C3 12.0, C4 12.5, C5 10.0, C6 8.0, C8 15.0; HGI 62.5 (internal 62.5); Moderate Gap",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-H1 (HGA)",
+      "requirement": "Document #3; TST-GS-H1..H3",
+      "fixture": "Profile H - Multiple gaps / priority ordering (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "Findings in order: HGA-X05 (1) > HGA-C6 (1) > HGA-X02 (2) > HGA-C2 (2) > HGA-X06 (3) > HGA-C4Q1 (3) > HGA-X03 (5) > HGA-C1 (6); strengths C3, C4, C5, C6, C8",
+      "actual": "Findings in order: HGA-X05 (1) > HGA-C6 (1) > HGA-X02 (2) > HGA-C2 (2) > HGA-X06 (3) > HGA-C4Q1 (3) > HGA-X03 (5) > HGA-C1 (6); strengths C3, C4, C5, C6, C8",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-H1 (IHS)",
+      "requirement": "IHS-003..IHS-011; TST-IHS-001..006",
+      "fixture": "Profile H - Multiple gaps / priority ordering (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "Pathways HGA-X05->E, HGA-C6->E, HGA-X02->C, HGA-C2->C, HGA-X06->D, HGA-C4Q1->B, HGA-X03->B, HGA-C1->B; no product (F); all Suggested by Rules Engine",
+      "actual": "Pathways HGA-X05->E, HGA-C6->E, HGA-X02->C, HGA-C2->C, HGA-X06->D, HGA-C4Q1->B, HGA-X03->B, HGA-C1->B; product none; statuses Suggested by Rules Engine",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-005",
+      "requirement": "Exact versioning",
+      "fixture": "Profile H - Multiple gaps / priority ordering (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0 stored on the record",
+      "actual": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-I1 (scoring)",
+      "requirement": "Document #1; TST-GS",
+      "fixture": "Profile I1 - C7 lowest (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "C1 20.0, C2 15.0, C3 15.0, C4 15.0, C5 10.0, C6 10.0, C8 15.0; HGI 100.0; Minimal Gap",
+      "actual": "C1 20.0, C2 15.0, C3 15.0, C4 15.0, C5 10.0, C6 10.0, C8 15.0; HGI 100.0 (internal 100); Minimal Gap",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-I1 (HGA)",
+      "requirement": "Document #3; TST-GS-H1..H3",
+      "fixture": "Profile I1 - C7 lowest (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "Findings in order: HGA-C7 (6); strengths C1, C2, C3, C4, C5, C6, C8",
+      "actual": "Findings in order: HGA-C7 (6); strengths C1, C2, C3, C4, C5, C6, C8",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-I1 (IHS)",
+      "requirement": "IHS-003..IHS-011; TST-IHS-001..006",
+      "fixture": "Profile I1 - C7 lowest (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "Pathways HGA-C7->C; no product (F); all Suggested by Rules Engine",
+      "actual": "Pathways HGA-C7->C; product none; statuses Suggested by Rules Engine",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-005",
+      "requirement": "Exact versioning",
+      "fixture": "Profile I1 - C7 lowest (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0 stored on the record",
+      "actual": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-I1 (scoring)",
+      "requirement": "Document #1; TST-GS",
+      "fixture": "Profile I2 - C7 not answered (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "C1 20.0, C2 15.0, C3 15.0, C4 15.0, C5 10.0, C6 10.0, C8 15.0; HGI 100.0; Minimal Gap",
+      "actual": "C1 20.0, C2 15.0, C3 15.0, C4 15.0, C5 10.0, C6 10.0, C8 15.0; HGI 100.0 (internal 100); Minimal Gap",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-I1 (HGA)",
+      "requirement": "Document #3; TST-GS-H1..H3",
+      "fixture": "Profile I2 - C7 not answered (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "Findings in order: none; strengths C1, C2, C3, C4, C5, C6, C8",
+      "actual": "Findings in order: none; strengths C1, C2, C3, C4, C5, C6, C8",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-I1 (IHS)",
+      "requirement": "IHS-003..IHS-011; TST-IHS-001..006",
+      "fixture": "Profile I2 - C7 not answered (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "Pathways none; no product (F); all Suggested by Rules Engine",
+      "actual": "Pathways none; product none; statuses n/a",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-005",
+      "requirement": "Exact versioning",
+      "fixture": "Profile I2 - C7 not answered (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0 stored on the record",
+      "actual": "A-ASM-1.0 / A-SCR-1.0 / A-HGA-1.0 / A-REC-1.0",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-J1, TST-GS-J2, TST-GS-J3",
+      "requirement": "LFC-013, TST-GS-J1..J3",
+      "fixture": "Profile J - Missing required response (DRAFT fixture, Milestone 3 Section 6.2)",
+      "expected": "Assessment Incomplete - HGI Not Calculated; missing Q6; no HGI",
+      "actual": "Assessment Incomplete - HGI Not Calculated; missing Q6; HGI not calculated; no category scores stored",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-D1",
+      "requirement": "Exposure / C7 never change HGI",
+      "fixture": "Profiles D1 and D2",
+      "expected": "Identical internal HGI",
+      "actual": "97.5 and 97.5",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-GS-I1",
+      "requirement": "Exposure / C7 never change HGI",
+      "fixture": "Profiles I1 and I2",
+      "expected": "Identical internal HGI",
+      "actual": "100 and 100",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-C4-001",
+      "requirement": "Document #1 C4; TST-C4-007/008",
+      "fixture": "{\"Q17\":\"3\",\"Q18\":\"3\",\"Q19\":\"3\",\"Q20\":\"3\",\"Q21\":\"3\",\"Q22\":\"3\"}",
+      "expected": "C4 15.0",
+      "actual": "C4 15.0 (internal 15)",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-C4-002",
+      "requirement": "Document #1 C4; TST-C4-007/008",
+      "fixture": "{\"Q17\":\"2\",\"Q18\":\"2\",\"Q19\":\"2\",\"Q20\":\"2\",\"Q21\":\"NA\",\"Q22\":\"NA\"}",
+      "expected": "C4 10.0",
+      "actual": "C4 10.0 (internal 10)",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-C4-003",
+      "requirement": "Document #1 C4; TST-C4-007/008",
+      "fixture": "{\"Q17\":\"2\",\"Q18\":\"2\",\"Q19\":\"1\",\"Q20\":\"NA\",\"Q21\":\"NA\",\"Q22\":\"NA\"}",
+      "expected": "C4 8.3",
+      "actual": "C4 8.3 (internal 8.333333333333333333333333333333333333334)",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-C4-004",
+      "requirement": "Document #1 C4; TST-C4-007/008",
+      "fixture": "{\"Q17\":\"3\",\"Q18\":\"3\",\"Q19\":\"NA\",\"Q20\":\"NA\",\"Q21\":\"NA\",\"Q22\":\"NA\"}",
+      "expected": "Insufficient Category 4 Data; HGI not calculated",
+      "actual": "Insufficient Category 4 Data; HGI not calculated",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-C4-005",
+      "requirement": "Document #1 C4; TST-C4-007/008",
+      "fixture": "{\"Q17\":\"3\",\"Q18\":\"NA\",\"Q19\":\"3\",\"Q20\":\"3\",\"Q21\":\"3\",\"Q22\":\"3\"}",
+      "expected": "C4 15.0",
+      "actual": "C4 15.0 (internal 15)",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-C4-006",
+      "requirement": "Document #1 C4; TST-C4-007/008",
+      "fixture": "{\"Q17\":\"3\",\"Q18\":null,\"Q19\":\"3\",\"Q20\":\"3\",\"Q21\":\"3\",\"Q22\":\"3\"}",
+      "expected": "Assessment Incomplete - HGI Not Calculated",
+      "actual": "Assessment Incomplete - HGI Not Calculated; HGI not calculated",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-C3Q4-001",
+      "requirement": "C3Q4 lower-of; TST-C3Q4-006/007",
+      "fixture": "Q15A=3, Q15B=1",
+      "expected": "C3Q4 1; both answers stored",
+      "actual": "C3Q4 1; stored Q15A=3, Q15B=1",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-C3Q4-002",
+      "requirement": "C3Q4 lower-of; TST-C3Q4-006/007",
+      "fixture": "Q15A=1, Q15B=3",
+      "expected": "C3Q4 1; both answers stored",
+      "actual": "C3Q4 1; stored Q15A=1, Q15B=3",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-C3Q4-003",
+      "requirement": "C3Q4 lower-of; TST-C3Q4-006/007",
+      "fixture": "Q15A=3, Q15B=3",
+      "expected": "C3Q4 3; both answers stored",
+      "actual": "C3Q4 3; stored Q15A=3, Q15B=3",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-C3Q4-004",
+      "requirement": "C3Q4 lower-of; TST-C3Q4-006/007",
+      "fixture": "Q15A=0, Q15B=3",
+      "expected": "C3Q4 0; both answers stored",
+      "actual": "C3Q4 0; stored Q15A=0, Q15B=3",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-C3Q4-005",
+      "requirement": "C3Q4 lower-of; TST-C3Q4-006/007",
+      "fixture": "Q15A=2, Q15B=2",
+      "expected": "C3Q4 2; both answers stored",
+      "actual": "C3Q4 2; stored Q15A=2, Q15B=2",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-HGI-001",
+      "requirement": "TST-HGI-009..011; band from displayed value (Oct 8 decision)",
+      "fixture": "Internal HGI 90.0",
+      "expected": "90.0 Minimal Gap",
+      "actual": "90.0 Minimal Gap",
+      "note": "Round half up to one decimal (decimal arithmetic)",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-HGI-002",
+      "requirement": "TST-HGI-009..011; band from displayed value (Oct 8 decision)",
+      "fixture": "Internal HGI 89.9",
+      "expected": "89.9 Mild Gap",
+      "actual": "89.9 Mild Gap",
+      "note": "Round half up to one decimal (decimal arithmetic)",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-HGI-003",
+      "requirement": "TST-HGI-009..011; band from displayed value (Oct 8 decision)",
+      "fixture": "Internal HGI 75.0",
+      "expected": "75.0 Mild Gap",
+      "actual": "75.0 Mild Gap",
+      "note": "Round half up to one decimal (decimal arithmetic)",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-HGI-004",
+      "requirement": "TST-HGI-009..011; band from displayed value (Oct 8 decision)",
+      "fixture": "Internal HGI 74.9",
+      "expected": "74.9 Moderate Gap",
+      "actual": "74.9 Moderate Gap",
+      "note": "Round half up to one decimal (decimal arithmetic)",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-HGI-005",
+      "requirement": "TST-HGI-009..011; band from displayed value (Oct 8 decision)",
+      "fixture": "Internal HGI 60.0",
+      "expected": "60.0 Moderate Gap",
+      "actual": "60.0 Moderate Gap",
+      "note": "Round half up to one decimal (decimal arithmetic)",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-HGI-006",
+      "requirement": "TST-HGI-009..011; band from displayed value (Oct 8 decision)",
+      "fixture": "Internal HGI 59.9",
+      "expected": "59.9 Significant Gap",
+      "actual": "59.9 Significant Gap",
+      "note": "Round half up to one decimal (decimal arithmetic)",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-HGI-007",
+      "requirement": "TST-HGI-009..011; band from displayed value (Oct 8 decision)",
+      "fixture": "Internal HGI 40.0",
+      "expected": "40.0 Significant Gap",
+      "actual": "40.0 Significant Gap",
+      "note": "Round half up to one decimal (decimal arithmetic)",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-HGI-008",
+      "requirement": "TST-HGI-009..011; band from displayed value (Oct 8 decision)",
+      "fixture": "Internal HGI 39.9",
+      "expected": "39.9 Critical Gap",
+      "actual": "39.9 Critical Gap",
+      "note": "Round half up to one decimal (decimal arithmetic)",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-HGI-010a",
+      "requirement": "TST-HGI-009..011; band from displayed value (Oct 8 decision)",
+      "fixture": "Internal HGI 89.95",
+      "expected": "90.0 Minimal Gap",
+      "actual": "90.0 Minimal Gap",
+      "note": "Round half up to one decimal (decimal arithmetic)",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-HGI-010b",
+      "requirement": "TST-HGI-009..011; band from displayed value (Oct 8 decision)",
+      "fixture": "Internal HGI 89.94",
+      "expected": "89.9 Mild Gap",
+      "actual": "89.9 Mild Gap",
+      "note": "Round half up to one decimal (decimal arithmetic)",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-HGI-011",
+      "requirement": "TST-HGI-009..011; band from displayed value (Oct 8 decision)",
+      "fixture": "Internal HGI 74.95",
+      "expected": "75.0 Mild Gap",
+      "actual": "75.0 Mild Gap",
+      "note": "Round half up to one decimal (decimal arithmetic)",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-IHS-007",
+      "requirement": "Review gate",
+      "fixture": "Profile E",
+      "expected": "Athlete sees nothing before approval",
+      "actual": "No results visible",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-ROL-005",
+      "requirement": "ROL; IHS-015",
+      "fixture": "Profile E",
+      "expected": "Technical admin approval denied",
+      "actual": "Denied",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-IHS-008 / TST-GS-E1",
+      "requirement": "IHS-014; HGA-012",
+      "fixture": "Profile E",
+      "expected": "Suggested -> Reviewed -> Approved -> Assigned / Delivered; safety priority shown; HGI 99.0 Minimal Gap",
+      "actual": "Assigned / Delivered; first priority safety=true; HGI 99.0 Minimal Gap",
+      "status": "Passed"
+    },
+    {
+      "testId": "ROL / F8",
+      "requirement": "Athletes never see rule IDs, weights or formulas",
+      "fixture": "Profile E released result",
+      "expected": "No rule IDs, weights, formulas",
+      "actual": "None present",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-CHG-001 Improved",
+      "requirement": "Document #4 CHG-004..013; REA-001",
+      "fixture": "Baseline and reassessment for one fictional athlete (two separate instances)",
+      "expected": "HGI change +5.0; HGA-C1 Improved, HGA-X03 Improved",
+      "actual": "HGI change +5.0 (internal 5); HGA-C1 Improved, HGA-X03 Improved",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-CHG-002 Resolved",
+      "requirement": "Document #4 CHG-004..013; REA-001",
+      "fixture": "Baseline and reassessment for one fictional athlete (two separate instances)",
+      "expected": "HGI change +20.0; HGA-X03 Resolved, HGA-C1 Resolved",
+      "actual": "HGI change +20.0 (internal 20); HGA-X03 Resolved, HGA-C1 Resolved",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-CHG-003 Persistent",
+      "requirement": "Document #4 CHG-004..013; REA-001",
+      "fixture": "Baseline and reassessment for one fictional athlete (two separate instances)",
+      "expected": "HGI change +0.0; HGA-C2 Persistent",
+      "actual": "HGI change +0.0 (internal 0); HGA-C2 Persistent",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-CHG-004 Worsened",
+      "requirement": "Document #4 CHG-004..013; REA-001",
+      "fixture": "Baseline and reassessment for one fictional athlete (two separate instances)",
+      "expected": "HGI change -10.0; HGA-C1 Worsened, HGA-X03 Worsened",
+      "actual": "HGI change -10.0 (internal -10); HGA-C1 Worsened, HGA-X03 Worsened",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-CHG-005 New",
+      "requirement": "Document #4 CHG-004..013; REA-001",
+      "fixture": "Baseline and reassessment for one fictional athlete (two separate instances)",
+      "expected": "HGI change -20.0; HGA-X03 New, HGA-C1 New",
+      "actual": "HGI change -20.0 (internal -20); HGA-X03 New, HGA-C1 New",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-CHG-006 HGI delta",
+      "requirement": "Document #4 CHG-004..013; REA-001",
+      "fixture": "Baseline and reassessment for one fictional athlete (two separate instances)",
+      "expected": "HGI change +37.5; all baseline findings Resolved",
+      "actual": "HGI change +37.5 (internal 37.5); all baseline findings Resolved",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-CHG-007 Safety despite improvement",
+      "requirement": "Document #4 CHG-004..013; REA-001",
+      "fixture": "Baseline and reassessment for one fictional athlete (two separate instances)",
+      "expected": "HGI change +19.0; HGA-X03 Resolved, HGA-X05 New",
+      "actual": "HGI change +19.0 (internal 19); HGA-X03 Resolved, HGA-X05 New",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-CHG-010 C7 change",
+      "requirement": "Document #4 CHG-004..013; REA-001",
+      "fixture": "Baseline and reassessment for one fictional athlete (two separate instances)",
+      "expected": "HGI change +0.0; HGA-C7 New",
+      "actual": "HGI change +0.0 (internal 0); HGA-C7 New",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-CHG-009 Missing reassessment",
+      "requirement": "Document #4 REA-010, CHG-023",
+      "fixture": "Profile A baseline; window closes without a reassessment",
+      "expected": "Reassessment Not Completed / Outcome Unknown",
+      "actual": "Reassessment Not Completed / Outcome Unknown",
+      "status": "Passed"
+    }
+  ]
+}
