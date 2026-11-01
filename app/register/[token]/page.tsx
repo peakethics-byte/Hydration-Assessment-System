@@ -6,6 +6,7 @@ import { completeRegistration, registrationInfo } from '@/src/server/roster';
 async function register(form: FormData) {
   'use server';
   const token = String(form.get('token'));
+  if (String(form.get('password') ?? '') !== String(form.get('confirm') ?? '')) redirect(`/register/${token}?error=${encodeURIComponent('The two passwords do not match.')}`);
   const r = await completeRegistration(await getDb(), token, {
     password: String(form.get('password') ?? ''),
     dateOfBirth: String(form.get('dateOfBirth') ?? ''),
@@ -32,6 +33,8 @@ export default async function RegisterPage({ params, searchParams }: { params: P
         <label htmlFor="password">Choose a password</label>
         <input id="password" name="password" type="password" autoComplete="new-password" minLength={10} required />
         <p className="muted small">At least 10 characters, with a letter and a number.</p>
+        <label htmlFor="confirm">Type the password again</label>
+        <input id="confirm" name="confirm" type="password" autoComplete="new-password" minLength={10} required />
         <label htmlFor="dateOfBirth">Date of birth</label>
         <input id="dateOfBirth" name="dateOfBirth" type="date" required />
         <label htmlFor="mothersMaidenName">Mother&apos;s maiden name</label>

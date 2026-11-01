@@ -271,7 +271,10 @@ html { scroll-behavior: smooth; }
 .question .warn { margin: 0 0 12px; }
 
 /* Logo in the header */
-header.top .brand .logo { width: 34px; height: 34px; object-fit: contain; filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.35)); }
+header.top .brand .logo-plate { display: inline-flex; align-items: center; padding: 4px 9px; background: #fff; border-radius: var(--radius-sm); box-shadow: 0 0 14px rgba(34, 211, 238, 0.22); }
+header.top .brand .logo-full { display: block; width: 88px; height: 30px; object-fit: contain; }
+header.top .brand .brand-name { font-size: 15px; padding-left: 12px; border-left: 1px solid var(--line-2); line-height: 1.2; }
+@media (max-width: 600px) { header.top .brand .brand-name { display: none; } }
 
 /* Form submit rows: space above the button, none below (fixes the button sitting on the last field). */
 form p:has(> button:only-child) { margin: 22px 0 0; }
