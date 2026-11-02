@@ -272,7 +272,7 @@ html { scroll-behavior: smooth; }
 
 /* Logo in the header */
 header.top .brand .logo-plate { display: inline-flex; align-items: center; }
-header.top .brand .logo-full { display: block; width: 88px; height: 30px; object-fit: contain; }
+header.top .brand .logo-full { display: block; width: 117px; height: 40px; object-fit: contain; }
 
 
 /* Form submit rows: space above the button, none below (fixes the button sitting on the last field). */
@@ -471,10 +471,10 @@ select::-ms-expand { display: none; }
 /* Home: SipLogic brand card */
 .home-top { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 36px; align-items: center; }
 .home-top .hero { max-width: none; }
-.brand-card { text-align: center; padding: 34px 30px 30px; border-radius: var(--radius); background: radial-gradient(120% 100% at 30% 20%, #ffffff 0%, #eef4fb 45%, #c7daf1 100%); border: 1px solid rgba(255,255,255,.6); box-shadow: 0 20px 60px rgba(0,0,0,.45), 0 0 40px rgba(34,211,238,.12); color: #0b2f6b; }
+.brand-card { text-align: center; padding: 10px 10px 0; }
 .brand-card img { width: 100%; max-width: 380px; height: auto; display: block; margin: 0 auto; }
-.brand-rule { height: 2px; margin: 14px auto 12px; max-width: 360px; background: linear-gradient(90deg, transparent, #1d6fd1 15%, #1d6fd1 85%, transparent); }
-.brand-tag { font-size: 13px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: #1d6fd1; }
-.brand-co { margin-top: 20px; font-size: 24px; font-weight: 600; letter-spacing: .03em; color: #0b2f6b; }
-.brand-motto { margin: 8px auto 0; max-width: 340px; font-size: 14px; font-style: italic; line-height: 1.5; color: #1d4f9c; }
+.brand-rule { height: 2px; margin: 14px auto 12px; max-width: 360px; background: linear-gradient(90deg, transparent, #22d3ee 15%, #3b82f6 85%, transparent); }
+.brand-tag { font-size: 13px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: #38bdf8; }
+.brand-co { margin-top: 20px; font-size: 24px; font-weight: 600; letter-spacing: .03em; color: var(--ink); }
+.brand-motto { margin: 8px auto 0; max-width: 340px; font-size: 14px; font-style: italic; line-height: 1.5; color: var(--muted); }
 @media (max-width: 900px) { .home-top { grid-template-columns: 1fr; gap: 24px; } }
