@@ -20,8 +20,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </a>
             <nav>
               {roles.has('athlete') && <><a href="/athlete">My assessment</a><a href="/athlete/results">My results</a><a href="/athlete/history">My history</a></>}
-              {roles.has('program_admin') && <><a href="/admin">Teams &amp; sign-up</a><a href="/admin/review">Review queue</a><a href="/athletes">Athletes</a><a href="/admin/users">Users</a><a href="/admin/requests">Requests</a><a href="/admin/audit">Audit log</a></>}
+              {roles.has('program_admin') && <><a href="/admin">Teams &amp; sign-up</a><a href="/admin/review">Review queue</a><a href="/athletes">Athletes</a><a href="/reports">Reports</a><a href="/admin/users">Users</a><a href="/admin/requests">Requests</a><a href="/admin/audit">Audit log</a></>}
               {u && !roles.has('athlete') && !roles.has('program_admin') && <a href="/staff">Overview</a>}
+              {(roles.has('inst_leader') || roles.has('coach')) && !roles.has('program_admin') && <a href="/reports">Reports</a>}
               {roles.has('health_support') && !roles.has('program_admin') && <a href="/athletes">Athletes</a>}
             </nav>
             <span className="who">

@@ -60,3 +60,34 @@ export async function seedHistoryDemo(db: Db, ids: SeedIds) {
     where participant_id = (select participant_id from participant where user_id = $1)`, [taylor]));
   await draftMaintenance(db);
 }
+
+// Fictional team populations for Milestone 6 (institution dashboard and reports). Two teams of six,
+// so most figures are above the DRAFT privacy threshold of 5; three Track athletes are reassessed.
+export async function seedReportDemo(db: Db, ids: SeedIds) {
+  const admin = ids.users.admin;
+  const { uploadRoster } = await import('../server/roster');
+  const teams = [
+    { team: ids.teams.trackField, prefix: 'tf', names: ['Alex Carter', 'Jamie Lee', 'Drew Patel', 'Sam Brooks', 'Kai Nguyen', 'Rowan Diaz'], profiles: ['A', 'B', 'C', 'E', 'F', 'G'] },
+    { team: ids.teams.soccer, prefix: 'sc', names: ['Blake Moore', 'Emery Shaw', 'Jordan Kim', 'Reese Allen', 'Skyler Grant', 'Parker Lane'], profiles: ['B', 'C', 'F', 'G', 'A', 'C'] },
+  ];
+  const today = new Date().toISOString().slice(0, 10);
+  const plus = (n: number) => new Date(Date.now() + n * 86_400_000).toISOString().slice(0, 10);
+  for (const t of teams) {
+    const rows = t.names.map((n, i) => { const [f, l] = n.split(' '); return `${f},${l},${t.prefix}.${f.toLowerCase()}.${l.toLowerCase()}@northbridge.test,NSU-${t.prefix.toUpperCase()}${i + 1}`; });
+    await uploadRoster(db, admin, t.team, ['first_name,last_name,email,institution_athlete_id', ...rows].join('\n'));
+    for (const [i, n] of t.names.entries()) {
+      const [f, l] = n.split(' ');
+      const user = await registerAthlete(db, `${t.prefix}.${f.toLowerCase()}.${l.toLowerCase()}@northbridge.test`, '2004-03-03', 'Demo');
+      const pid = (await db.system((tx) => tx.query<{ participant_id: string }>('select participant_id from participant where user_id = $1', [user]))).rows[0].participant_id;
+      await db.system((tx) => tx.query('update athlete_team_affiliation set effective_start = current_date - 60 where participant_id = $1', [pid]));
+      const a = await takeAssessment(db, user, PROFILES.find((p) => p.id === t.profiles[i])!.answers);
+      if (i < 4) await release(db, admin, a.instanceId);
+      await backdate(db, a.instanceId, 30);
+      if (t.prefix === 'tf' && i < 3) {
+        await scheduleReassessment(db, admin, { tenantId: ids.tenantA, participantIds: [pid], targetStart: today, targetEnd: plus(30) });
+        const r = await takeAssessment(db, user, PROFILES.find((p) => p.id === 'A')!.answers);
+        await release(db, admin, r.instanceId);
+      }
+    }
+  }
+}

@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { assertDbFree, openDb } from '../src/server/db';
 import { DEV_PASSWORD, seedDemo } from '../src/server/seed';
-import { seedHistoryDemo } from '../src/testing/demo';
+import { seedHistoryDemo, seedReportDemo } from '../src/testing/demo';
 
 const dir = process.env.DB_DIR ?? path.join(process.cwd(), '.data', 'pgdata');
 const cmd = process.argv[2] ?? 'reset';
@@ -16,6 +16,7 @@ async function main() {
   const db = await openDb(dir);
   const ids = await seedDemo(db);
   await seedHistoryDemo(db, ids); // Milestone 5 demo: an improvement over time and a missed reassessment
+  await seedReportDemo(db, ids); // Milestone 6 demo: two teams of six for the dashboard and reports
   // Seed emails go to fictional .test addresses; never deliver them.
   await db.pg.query(`update email_outbox set status = 'Not sent - no email service configured' where status = 'Pending'`);
   await db.pg.close();

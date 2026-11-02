@@ -108,7 +108,7 @@ p { margin: 0 0 12px; }
 
 /* ---------- Forms ---------- */
 label { display: block; font-weight: 600; font-size: 14px; margin: 14px 0 6px; color: var(--ink); }
-input[type=text], input[type=email], input[type=password], input[type=date], textarea, select {
+input[type=text], input[type=email], input[type=password], input[type=date], input[type=number], textarea, select {
   width: 100%; padding: 11px 13px; font: inherit; color: var(--ink);
   background: var(--bg-2); border: 1px solid var(--line-2); border-radius: var(--radius-sm);
   transition: border-color .15s, box-shadow .15s;
@@ -467,3 +467,19 @@ select::-ms-expand { display: none; }
 .profile-a { color: var(--ink); }
 @media (max-width: 1080px) { .profile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) { .profile-grid { grid-template-columns: 1fr; } }
+
+/* Milestone 6: reports */
+.reports-narrative textarea, textarea[name^="n_"] { font-family: inherit; font-size: 14px; min-height: 96px; }
+table.compact { width: 100%; border-collapse: collapse; }
+table.compact td { padding: 8px 0; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 14px; }
+table.compact tr:last-child td { border-bottom: 0; }
+table.compact td.num, table.compact td:last-child { text-align: right; white-space: nowrap; padding-left: 12px; font-variant-numeric: tabular-nums; }
+.bars { display: grid; gap: 10px; }
+.bar-row { display: grid; grid-template-columns: 130px 1fr 92px; gap: 12px; align-items: center; font-size: 14px; }
+.bar-label { color: var(--muted); }
+.bar-track { height: 14px; background: var(--bg-2); border-radius: 4px; overflow: hidden; }
+.bar-fill { display: block; height: 100%; border-radius: 0 4px 4px 0; min-width: 4px; }
+.bar-row:hover .bar-fill { filter: brightness(1.25); }
+.bar-value { text-align: right; font-variant-numeric: tabular-nums; }
+details.card summary { cursor: pointer; font-weight: 600; }
+@media (max-width: 600px) { .bar-row { grid-template-columns: 96px 1fr 70px; } }

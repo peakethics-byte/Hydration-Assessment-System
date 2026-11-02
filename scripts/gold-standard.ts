@@ -12,6 +12,8 @@ import { newAthlete, storedResult, takeAssessment } from '../src/testing/harness
 import { decideRecommendation, markReviewed, releaseResults, reviewDetail } from '../src/server/review';
 import { athleteResult, draftMaintenance } from '../src/server/assessment';
 import { scheduleReassessment, OUTCOME_UNKNOWN } from '../src/server/reassessment';
+import { programPeriods } from '../src/server/institution';
+import { correctReport, currentPeriod, dashboard, generateReport, getReport, periodsFor, reportStep, saveNarrative, setThreshold } from '../src/server/reporting';
 
 interface RecordRow {
   testId: string;
@@ -197,6 +199,72 @@ async function main() {
       expected: OUTCOME_UNKNOWN, actual: o }, o === OUTCOME_UNKNOWN);
   }
 
+  // ---- Milestone 6: aggregation and formal reports (Document #5 Section 13) ----
+  {
+    const p = programPeriods('2026-09-15');
+    const got = [...p.quarters.map((q) => `${q.type} ${q.start}..${q.end}`), `Annual ${p.annual.start}..${p.annual.end}`].join('; ');
+    const exp = 'Q1 2026-09-15..2026-12-14; Q2 2026-12-15..2027-03-14; Q3 2027-03-15..2027-06-14; Q4 2027-06-15..2027-09-14; Annual 2026-09-15..2027-09-14';
+    add({ testId: 'TST-DAT-001', requirement: 'Document #5 DAT-001..005', fixture: 'Program Start Date September 15, 2026', expected: exp, actual: got }, got === exp);
+
+    // Lakeview (fictional): five athletes with hand-calculated HGIs 100, 80, 85, 90, 62.5; one more listed but not assessed.
+    const adminB = ids.users.adminB;
+    for (const id of ['A', 'B', 'C', 'F', 'H']) {
+      const a = await newAthlete(db, adminB, ids.teams.lakeviewBasketball, `Lv${id}`);
+      await takeAssessment(db, a, P(id));
+    }
+    const d = (await dashboard(db, adminB, ids.tenantB)).data;
+    const bands = d.summary.bands.filter((b) => b.athletes.n).map((b) => `${b.band} ${b.athletes.n}`).join(', ');
+    add({ testId: 'TST-REP-003', requirement: 'Document #5 REP-020', fixture: 'Lakeview: 6 on the team list, 5 assessed',
+      expected: 'eligible 6; assessed 5; completion 5 of 6 (83.3%)',
+      actual: `eligible ${d.participation.eligible}; assessed ${d.participation.assessed}; completion ${d.participation.completion.n} of ${d.participation.completion.d} (${d.participation.completion.pct}%)` },
+      d.participation.eligible === 6 && d.participation.assessed === 5 && d.participation.completion.pct === '83.3');
+    add({ testId: 'TST-REP-004', requirement: 'Document #5 REP-027', fixture: 'HGIs 100.0, 80.0, 85.0, 90.0, 62.5',
+      expected: 'average 83.5; median 85.0; Minimal Gap 2, Mild Gap 2, Moderate Gap 1',
+      actual: `average ${d.summary.hgiMean}; median ${d.summary.hgiMedian}; ${bands}` },
+      d.summary.hgiMean === '83.5' && d.summary.hgiMedian === '85.0' && bands === 'Minimal Gap 2, Mild Gap 2, Moderate Gap 1');
+    const c7 = d.summary.categories.find((c) => c.code === 'C7')!;
+    add({ testId: 'TST-REP-005', requirement: 'Document #5 REP-018', fixture: 'Same cohort', expected: 'C7 contextual, no average, not in HGI',
+      actual: `C7 contextual=${c7.contextual}; average ${c7.meanPct ?? 'none'}` }, c7.contextual && c7.meanPct == null);
+    add({ testId: 'TST-REP-010', requirement: 'Document #5 REP-031', fixture: 'Average HGI 83.5 (favorable) with one safety finding (profile H)',
+      expected: 'safety / support listed first; count withheld (1 is below 5)', actual: `first priority: ${d.priorities[0]?.kind}; present=${d.summary.safety.present}; count ${d.summary.safety.n ?? 'withheld'}` },
+      d.priorities[0]?.kind === 'Safety / support' && d.summary.safety.present && d.summary.safety.n == null);
+
+    await setThreshold(db, adminB, ids.tenantB, 6);
+    const hiddenD = (await dashboard(db, adminB, ids.tenantB)).data;
+    add({ testId: 'TST-PRV-001', requirement: 'Document #5 PRV-202/203', fixture: 'Threshold raised to 6; 5 assessed',
+      expected: 'health figures withheld; participation shown', actual: `suppressed=${hiddenD.summary.suppressed}; average ${hiddenD.summary.hgiMean ?? 'withheld'}; assessed ${hiddenD.summary.assessed}` },
+      hiddenD.summary.suppressed && hiddenD.summary.hgiMean == null && hiddenD.summary.assessed === 5);
+    await setThreshold(db, adminB, ids.tenantB, 5);
+
+    let denied = false;
+    try { await dashboard(db, adminB, ids.tenantA); } catch { denied = true; }
+    add({ testId: 'TST-PRV-002', requirement: 'Document #5 PRV-205', fixture: 'Lakeview administrator opens the Northbridge dashboard', expected: 'access denied', actual: denied ? 'access denied' : 'visible' }, denied);
+
+    const { periods } = await db.system((tx) => periodsFor(tx, ids.tenantB));
+    const g = await generateReport(db, adminB, { tenantId: ids.tenantB, periodId: currentPeriod(periods).period_id });
+    const rid = g.ok ? g.reportId : '';
+    const early = await reportStep(db, adminB, rid, 'release');
+    add({ testId: 'TST-REP-012', requirement: 'Document #5 REP-033', fixture: 'Draft quarterly report', expected: 'release refused before approval',
+      actual: early.ok ? 'released' : 'release refused' }, !early.ok);
+    await saveNarrative(db, adminB, rid, { nextQuarterActions: 'Fictional next-quarter action for testing.' });
+    for (const st of ['submit', 'approve', 'release'] as const) await reportStep(db, adminB, rid, st);
+    const r1 = (await getReport(db, adminB, rid))!;
+    add({ testId: 'TST-REP-001', requirement: 'Document #5 REP-016', fixture: 'Generated quarterly report',
+      expected: `Program Year 2026-09-15..2027-09-14; ${currentPeriod(periods).period_type} ${currentPeriod(periods).start_date}..${currentPeriod(periods).end_date}; generation date set`,
+      actual: `Program Year ${r1.content.data.period.programYearStart}..${r1.content.data.period.programYearEnd}; ${r1.content.data.period.type} ${r1.content.data.period.start}..${r1.content.data.period.end}; generated ${r1.generated_at ? 'yes' : 'no'}` },
+      r1.content.data.period.programYearStart === '2026-09-15' && r1.content.data.period.start === currentPeriod(periods).start_date && Boolean(r1.generated_at));
+    const c = await correctReport(db, adminB, rid, 'Fictional correction for testing');
+    const cid = c.ok ? c.reportId : '';
+    await saveNarrative(db, adminB, cid, { nextQuarterActions: 'Fictional next-quarter action for testing.' });
+    for (const st of ['submit', 'approve', 'release'] as const) await reportStep(db, adminB, cid, st);
+    const old = (await getReport(db, adminB, rid))!;
+    const cur = (await getReport(db, adminB, cid))!;
+    add({ testId: 'TST-REP-011', requirement: 'Document #5 REP-034/035', fixture: 'Released report, then a correction',
+      expected: 'v1 Superseded with unchanged content; v2 Released, supersedes v1',
+      actual: `v${old.version} ${old.status} (content unchanged: ${JSON.stringify(old.content) === JSON.stringify(r1.content)}); v${cur.version} ${cur.status}, supersedes v1: ${cur.supersedes_id === rid}` },
+      old.status === 'Superseded' && JSON.stringify(old.content) === JSON.stringify(r1.content) && cur.status === 'Released' && cur.supersedes_id === rid && cur.version === 2);
+  }
+
   // ---- Write the evidence ----
   const outDir = path.join(process.cwd(), 'test-evidence');
   fs.mkdirSync(outDir, { recursive: true });
@@ -212,7 +280,7 @@ async function main() {
   };
   fs.writeFileSync(path.join(outDir, 'gold-standard-results.json'), JSON.stringify({ meta, rows }, null, 2));
   const md = [
-    '# Gold-Standard Test Execution Record - Milestone 4',
+    '# Gold-Standard Test Execution Record - Milestones 4 to 6',
     '',
     `Environment: ${meta.environment}  `,
     `Build: ${meta.build}  `,

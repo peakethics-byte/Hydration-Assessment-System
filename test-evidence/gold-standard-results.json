@@ -4,9 +4,9 @@
     "build": "wecanh2o-hydration-assessment 1.0.0",
     "versions": "A-ASM-1.0, A-SCR-1.0, A-HGA-1.0 (DRAFT fixture), A-REC-1.0 (DRAFT fixture)",
     "tester": "Automated run, reviewed by Gwen Lavarias",
-    "date": "2026-10-29T01:50:47.483Z",
-    "total": 82,
-    "passed": 82
+    "date": "2026-11-02T18:56:30.218Z",
+    "total": 92,
+    "passed": 92
   },
   "rows": [
     {
@@ -674,6 +674,86 @@
       "fixture": "Profile A baseline; window closes without a reassessment",
       "expected": "Reassessment Not Completed / Outcome Unknown",
       "actual": "Reassessment Not Completed / Outcome Unknown",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-DAT-001",
+      "requirement": "Document #5 DAT-001..005",
+      "fixture": "Program Start Date September 15, 2026",
+      "expected": "Q1 2026-09-15..2026-12-14; Q2 2026-12-15..2027-03-14; Q3 2027-03-15..2027-06-14; Q4 2027-06-15..2027-09-14; Annual 2026-09-15..2027-09-14",
+      "actual": "Q1 2026-09-15..2026-12-14; Q2 2026-12-15..2027-03-14; Q3 2027-03-15..2027-06-14; Q4 2027-06-15..2027-09-14; Annual 2026-09-15..2027-09-14",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-REP-003",
+      "requirement": "Document #5 REP-020",
+      "fixture": "Lakeview: 6 on the team list, 5 assessed",
+      "expected": "eligible 6; assessed 5; completion 5 of 6 (83.3%)",
+      "actual": "eligible 6; assessed 5; completion 5 of 6 (83.3%)",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-REP-004",
+      "requirement": "Document #5 REP-027",
+      "fixture": "HGIs 100.0, 80.0, 85.0, 90.0, 62.5",
+      "expected": "average 83.5; median 85.0; Minimal Gap 2, Mild Gap 2, Moderate Gap 1",
+      "actual": "average 83.5; median 85.0; Minimal Gap 2, Mild Gap 2, Moderate Gap 1",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-REP-005",
+      "requirement": "Document #5 REP-018",
+      "fixture": "Same cohort",
+      "expected": "C7 contextual, no average, not in HGI",
+      "actual": "C7 contextual=true; average none",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-REP-010",
+      "requirement": "Document #5 REP-031",
+      "fixture": "Average HGI 83.5 (favorable) with one safety finding (profile H)",
+      "expected": "safety / support listed first; count withheld (1 is below 5)",
+      "actual": "first priority: Safety / support; present=true; count withheld",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-PRV-001",
+      "requirement": "Document #5 PRV-202/203",
+      "fixture": "Threshold raised to 6; 5 assessed",
+      "expected": "health figures withheld; participation shown",
+      "actual": "suppressed=true; average withheld; assessed 5",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-PRV-002",
+      "requirement": "Document #5 PRV-205",
+      "fixture": "Lakeview administrator opens the Northbridge dashboard",
+      "expected": "access denied",
+      "actual": "access denied",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-REP-012",
+      "requirement": "Document #5 REP-033",
+      "fixture": "Draft quarterly report",
+      "expected": "release refused before approval",
+      "actual": "release refused",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-REP-001",
+      "requirement": "Document #5 REP-016",
+      "fixture": "Generated quarterly report",
+      "expected": "Program Year 2026-09-15..2027-09-14; Q1 2026-09-15..2026-12-14; generation date set",
+      "actual": "Program Year 2026-09-15..2027-09-14; Q1 2026-09-15..2026-12-14; generated yes",
+      "status": "Passed"
+    },
+    {
+      "testId": "TST-REP-011",
+      "requirement": "Document #5 REP-034/035",
+      "fixture": "Released report, then a correction",
+      "expected": "v1 Superseded with unchanged content; v2 Released, supersedes v1",
+      "actual": "v1 Superseded (content unchanged: true); v2 Released, supersedes v1: true",
       "status": "Passed"
     }
   ]

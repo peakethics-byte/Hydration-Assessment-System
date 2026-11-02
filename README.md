@@ -99,6 +99,18 @@ all `@northbridge.test`. Emails the system sends appear in the **Dev mailbox** (
 Upgrade an existing local database (keeps your data): stop the app, run `npx tsx scripts/upgrade-m5.ts`, start the app.
 `npm run db -- reset` also adds demo history: **Casey Morgan** (baseline 90 days ago, reassessment now, improvement) and **Taylor Reed** (missed window, Outcome Unknown).
 
+## Milestone 6: aggregation and quarterly / annual reporting
+
+- **Reports dashboard** (`/reports`): WeCanH2O administrators, institution leaders and coaches (own teams only). Filters: period, team, baseline / reassessment, assessment version. Shows participation, HGI average / median / bands, category averages (C7 contextual), top gaps and strengths, institutional findings, interventions, reassessment and Outcome Unknown, Matched Cohort change, quarterly trend, team comparison and rules-based priorities.
+- **Formal reports** (`/reports/formal`): Quarterly Hydration Gap Report (nine sections) and Annual Hydration Intelligence Impact Report. Draft -> Under Review -> Revision Required -> Approved -> Released -> Superseded. Released reports are locked by the database; corrections create a new version. PDF has the institution, quarter and period on every page.
+- **Periods & privacy** (`/reports/settings`): automatic quarters, date changes with reason and history, Program Year renewal, small-cell threshold.
+- **Privacy**: groups below the threshold (default 5, **DRAFT**) are withheld everywhere; complementary suppression for team comparisons and filters; a safety indicator is always shown as present even when its count is withheld.
+- **Exports**: CSV and PDF need the separate export right and are written to the audit log.
+- **Access**: coaches and leaders never read individual records; the server checks their reporting scope and returns aggregates only.
+- **Module B** (corporate): the same aggregation applies with Organization / Site / Work group labels; no corporate screens in this contract.
+- Tests: `tests/reporting.test.ts` (Document #5 acceptance tests); `npm run gold` now includes 10 Milestone 6 checks (92 in total).
+- Demo data: `npm run db -- reset` adds two teams of six fictional athletes. The institution leader has no export right by design.
+
 ## Environment variables
 
 | Name | Purpose |

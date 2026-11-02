@@ -1,11 +1,11 @@
-# Gold-Standard Test Execution Record - Milestone 4
+# Gold-Standard Test Execution Record - Milestones 4 to 6
 
 Environment: Development (local, in-memory PostgreSQL / PGlite)  
 Build: wecanh2o-hydration-assessment 1.0.0  
 Rule versions: A-ASM-1.0, A-SCR-1.0, A-HGA-1.0 (DRAFT fixture), A-REC-1.0 (DRAFT fixture)  
 Tester: Automated run, reviewed by Gwen Lavarias  
-Date: 2026-10-29T01:50:47.483Z  
-Result: 82 of 82 passed
+Date: 2026-11-02T18:56:30.218Z  
+Result: 92 of 92 passed
 
 All fixtures are fictional. Expected values were calculated by hand (Milestone 3 Section 6). Actual values are the stored backend values.
 Status "Passed" means Passed Testing. Only WeCanH2O can set Accepted (ACC-001).
@@ -94,3 +94,13 @@ Status "Passed" means Passed Testing. Only WeCanH2O can set Accepted (ACC-001).
 | TST-CHG-007 Safety despite improvement | Document #4 CHG-004..013; REA-001 | Baseline and reassessment for one fictional athlete (two separate instances) | HGI change +19.0; HGA-X03 Resolved, HGA-X05 New | HGI change +19.0 (internal 19); HGA-X03 Resolved, HGA-X05 New | Passed |
 | TST-CHG-010 C7 change | Document #4 CHG-004..013; REA-001 | Baseline and reassessment for one fictional athlete (two separate instances) | HGI change +0.0; HGA-C7 New | HGI change +0.0 (internal 0); HGA-C7 New | Passed |
 | TST-CHG-009 Missing reassessment | Document #4 REA-010, CHG-023 | Profile A baseline; window closes without a reassessment | Reassessment Not Completed / Outcome Unknown | Reassessment Not Completed / Outcome Unknown | Passed |
+| TST-DAT-001 | Document #5 DAT-001..005 | Program Start Date September 15, 2026 | Q1 2026-09-15..2026-12-14; Q2 2026-12-15..2027-03-14; Q3 2027-03-15..2027-06-14; Q4 2027-06-15..2027-09-14; Annual 2026-09-15..2027-09-14 | Q1 2026-09-15..2026-12-14; Q2 2026-12-15..2027-03-14; Q3 2027-03-15..2027-06-14; Q4 2027-06-15..2027-09-14; Annual 2026-09-15..2027-09-14 | Passed |
+| TST-REP-003 | Document #5 REP-020 | Lakeview: 6 on the team list, 5 assessed | eligible 6; assessed 5; completion 5 of 6 (83.3%) | eligible 6; assessed 5; completion 5 of 6 (83.3%) | Passed |
+| TST-REP-004 | Document #5 REP-027 | HGIs 100.0, 80.0, 85.0, 90.0, 62.5 | average 83.5; median 85.0; Minimal Gap 2, Mild Gap 2, Moderate Gap 1 | average 83.5; median 85.0; Minimal Gap 2, Mild Gap 2, Moderate Gap 1 | Passed |
+| TST-REP-005 | Document #5 REP-018 | Same cohort | C7 contextual, no average, not in HGI | C7 contextual=true; average none | Passed |
+| TST-REP-010 | Document #5 REP-031 | Average HGI 83.5 (favorable) with one safety finding (profile H) | safety / support listed first; count withheld (1 is below 5) | first priority: Safety / support; present=true; count withheld | Passed |
+| TST-PRV-001 | Document #5 PRV-202/203 | Threshold raised to 6; 5 assessed | health figures withheld; participation shown | suppressed=true; average withheld; assessed 5 | Passed |
+| TST-PRV-002 | Document #5 PRV-205 | Lakeview administrator opens the Northbridge dashboard | access denied | access denied | Passed |
+| TST-REP-012 | Document #5 REP-033 | Draft quarterly report | release refused before approval | release refused | Passed |
+| TST-REP-001 | Document #5 REP-016 | Generated quarterly report | Program Year 2026-09-15..2027-09-14; Q1 2026-09-15..2026-12-14; generation date set | Program Year 2026-09-15..2027-09-14; Q1 2026-09-15..2026-12-14; generated yes | Passed |
+| TST-REP-011 | Document #5 REP-034/035 | Released report, then a correction | v1 Superseded with unchanged content; v2 Released, supersedes v1 | v1 Superseded (content unchanged: true); v2 Released, supersedes v1: true | Passed |
