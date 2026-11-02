@@ -17,7 +17,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <a className="brand" href={u ? homeFor(u) : '/'}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <span className="logo-plate"><img className="logo-full" src="/logo-full.png" alt="SipLogic" width={88} height={30} /></span>
-              <span className="brand-name">Structured Hydration Assessment</span>
             </a>
             <nav>
               {roles.has('athlete') && <><a href="/athlete">My assessment</a><a href="/athlete/results">My results</a><a href="/athlete/history">My history</a></>}

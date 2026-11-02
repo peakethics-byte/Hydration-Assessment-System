@@ -6,6 +6,7 @@ export default async function Home() {
   if (u) redirect(homeFor(u));
   return (
     <main>
+      <div className="home-top">
       <section className="hero">
         <div className="eyebrow">WeCanH2O · College Athletes</div>
         <h1>Know your <span className="grad">hydration gap</span>. Close it with a plan built for you.</h1>
@@ -21,6 +22,15 @@ export default async function Home() {
           Sign up with the email on the team list your college sent. Not on a college team? <a href="/request-access">Request individual access</a>.
         </p>
       </section>
+      <aside className="brand-card" aria-label="SipLogic by WeCanH2O, LLC">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo-full.png" alt="SipLogic" width={467} height={160} />
+        <div className="brand-rule" />
+        <div className="brand-tag">Structured Hydration Ecosystem</div>
+        <div className="brand-co">WeCanH2O, LLC</div>
+        <p className="brand-motto">Empowering people to make smarter hydration decisions for a healthier, more hydrated life.</p>
+      </aside>
+      </div>
 
       <section className="grid3" style={{ marginTop: 34 }}>
         <div className="feature">
