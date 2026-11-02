@@ -467,14 +467,3 @@ select::-ms-expand { display: none; }
 .profile-a { color: var(--ink); }
 @media (max-width: 1080px) { .profile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) { .profile-grid { grid-template-columns: 1fr; } }
-
-/* Home: SipLogic brand card */
-.home-top { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 36px; align-items: center; }
-.home-top .hero { max-width: none; }
-.brand-card { text-align: center; padding: 10px 10px 0; }
-.brand-card img { width: 100%; max-width: 380px; height: auto; display: block; margin: 0 auto; }
-.brand-rule { height: 2px; margin: 14px auto 12px; max-width: 360px; background: linear-gradient(90deg, transparent, #22d3ee 15%, #3b82f6 85%, transparent); }
-.brand-tag { font-size: 13px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: #38bdf8; }
-.brand-co { margin-top: 20px; font-size: 24px; font-weight: 600; letter-spacing: .03em; color: var(--ink); }
-.brand-motto { margin: 8px auto 0; max-width: 340px; font-size: 14px; font-style: italic; line-height: 1.5; color: var(--muted); }
-@media (max-width: 900px) { .home-top { grid-template-columns: 1fr; gap: 24px; } }
