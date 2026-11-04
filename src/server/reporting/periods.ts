@@ -19,7 +19,7 @@ export async function periodsFor(tx: Tx, tenantId: string) {
      where tenant_id = $1 order by program_start_date desc`, [tenantId])).rows;
   const periods = (await tx.query<Period>(
     `select period_id, program_year_id, period_type, start_date::text, end_date::text, original_start::text, original_end::text
-     from reporting_period where tenant_id = $1 order by start_date, period_type`, [tenantId])).rows;
+     from reporting_period where tenant_id = $1 order by (select y.program_start_date from program_year y where y.program_year_id = reporting_period.program_year_id), period_type = 'Annual', start_date`, [tenantId])).rows;
   return { years, periods };
 }
 
