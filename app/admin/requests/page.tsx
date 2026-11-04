@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { getDb } from '@/src/server/db';
 import { requireUser } from '@/src/server/session';
 import { decideRequest, listRequests } from '@/src/server/accounts';
+import { dateTime, mediumDate } from '@/src/domain/format';
 
 async function decide(form: FormData) {
   'use server';
@@ -33,7 +34,7 @@ export default async function Requests({ searchParams }: { searchParams: Promise
           <input type="hidden" name="requestId" value={r.request_id} />
           <div style={{ flex: '1 1 240px' }}>
             <strong>{r.first_name} {r.last_name}</strong>
-            <div className="muted small">{r.email_normalized} · requested {new Date(r.requested_at).toLocaleString('en-US')}</div>
+            <div className="muted small">{r.email_normalized} · requested {dateTime(r.requested_at)}</div>
           </div>
           <input type="text" name="note" placeholder="Note (optional)" style={{ width: 220 }} aria-label="Note" />
           <button name="decision" value="approve">Approve</button>
@@ -50,7 +51,7 @@ export default async function Requests({ searchParams }: { searchParams: Promise
             <tr key={r.request_id}>
               <td>{r.first_name} {r.last_name}</td><td>{r.email_normalized}</td>
               <td><span className={`pill${r.status === 'Declined' ? '' : ' ok'}`}>{r.status}</span></td>
-              <td className="small">{r.decided_at ? `${new Date(r.decided_at).toLocaleDateString('en-US')} · ${r.decided_by_name ?? ''}` : '-'}</td>
+              <td className="small">{r.decided_at ? `${mediumDate(r.decided_at)} · ${r.decided_by_name ?? ''}` : '-'}</td>
               <td className="small">{r.decision_note ?? ''}</td>
             </tr>
           ))}

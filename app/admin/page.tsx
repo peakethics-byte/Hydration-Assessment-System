@@ -6,6 +6,7 @@ import { draftMaintenance, reopenDraft } from '@/src/server/assessment';
 import { sendInvitations, uploadRoster } from '@/src/server/roster';
 import { setTeamProcedures } from '@/src/server/review';
 import { scheduleReassessment, windowSuggestion } from '@/src/server/reassessment';
+import { dateTime } from '@/src/domain/format';
 
 async function upload(form: FormData) {
   'use server';
@@ -139,7 +140,7 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
           <tbody>{expired.map((e) => (
             <tr key={e.instance_id}>
               <td>{e.first_name} {e.last_name} <span className="muted small">{e.athlete_code}</span></td>
-              <td>{e.last_saved_at ? new Date(e.last_saved_at).toLocaleString('en-US') : '-'}</td>
+              <td>{dateTime(e.last_saved_at)}</td>
               <td><form action={reopen}><input type="hidden" name="instanceId" value={e.instance_id} /><button className="secondary">Reopen</button></form></td>
             </tr>
           ))}</tbody>

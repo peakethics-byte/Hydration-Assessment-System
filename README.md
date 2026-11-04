@@ -111,6 +111,11 @@ Upgrade an existing local database (keeps your data): stop the app, run `npx tsx
 - Tests: `tests/reporting.test.ts` (Document #5 acceptance tests); `npm run gold` now includes 10 Milestone 6 checks (92 in total).
 - Demo data: `npm run db -- reset` adds two teams of six fictional athletes. The institution leader has no export right by design.
 
+## Code checks
+
+- `npm run lint` (ESLint), `npm run typecheck`, `npm test`, `npm run gold`. The same four run on GitHub for every change (`.github/workflows/ci.yml`).
+- Shared building blocks: record statuses in `src/domain/status.ts`, display formats in `src/domain/format.ts`, the review-and-release test helper in `src/testing/harness.ts`. Reporting is split into `src/server/reporting/` (scope, periods, data, formal, export).
+
 ## Environment variables
 
 | Name | Purpose |

@@ -9,6 +9,7 @@ import { suggestRecommendations } from '../engine/ihs';
 import { PermissionError, requireAdmin } from './roster';
 import { currentProgramYear } from './institution';
 import { afterScored, closeMissedWindows, openWindowFor, priorFindingsFor, SCORED } from './reassessment';
+import { longDate } from '../domain/format';
 
 export const DRAFT_DAYS = 14;
 
@@ -55,7 +56,7 @@ export async function draftMaintenance(db: Db) {
          and i.draft_expires_at <= now() + make_interval(days => coalesce(pc.reminder_days_before, 3))`,
     )).rows;
     for (const inst of due) {
-      const by = new Date(inst.draft_expires_at!).toLocaleDateString('en-US', { dateStyle: 'long' });
+      const by = longDate(inst.draft_expires_at);
       await sendEmail(tx, inst.email, 'Reminder: finish your Structured Hydration Assessment',
         [`Hello ${inst.first_name},`, '', 'You started the Structured Hydration Assessment but have not submitted it yet.',
           `Your saved answers are kept until ${by}. Please sign in and submit before then.`].join('\n'));

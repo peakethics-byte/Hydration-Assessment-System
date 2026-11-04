@@ -1,3 +1,4 @@
+import { CORRECTABLE, REVIEWABLE } from '@/src/domain/status';
 import { redirect, notFound } from 'next/navigation';
 import { getDb } from '@/src/server/db';
 import { requireUser } from '@/src/server/session';
@@ -9,6 +10,7 @@ import { A_ASM_1_0 } from '@/src/methodology/a-asm-1.0';
 import { A_REC_1_0 } from '@/src/methodology/a-rec-1.0';
 import { A_SCR_1_0 } from '@/src/methodology/a-scr-1.0';
 import type { Pathway } from '@/src/methodology/types';
+import { dateTime } from '@/src/domain/format';
 
 const PATHWAY = Object.fromEntries(A_REC_1_0.pathways.map((p) => [p.code, p.name]));
 const CAT_NAMES = Object.fromEntries(A_SCR_1_0.categories.map((c) => [c.code, c.name]));
@@ -74,7 +76,7 @@ export default async function ReviewDetail({ params, searchParams }: {
   if (!d) notFound();
   const corrections = await correctionHistory(db, u.userId, id);
   const change = await changeFor(db, u.userId, id);
-  const correctable = ['Complete / Scored', 'Reviewed', 'Released', 'Revalidated'].includes(d.header.status);
+  const correctable = CORRECTABLE.includes(d.header.status);
   const label = (code: string, c: string | null, cs: string[] | null, state: string) => {
     const i = A_ASM_1_0.items.find((x) => x.itemCode === code);
     if (state === 'blank') return 'blank';
@@ -96,7 +98,7 @@ export default async function ReviewDetail({ params, searchParams }: {
       <p><a href="/admin/review">&larr; Review queue</a></p>
       <h1>{h.first_name} {h.last_name} <span className="muted small">{h.athlete_code}</span></h1>
       <p className="muted">
-        {h.team ?? 'No team'} · {h.institution} · Submitted {new Date(h.submitted_at).toLocaleString('en-US')} ·{' '}
+        {h.team ?? 'No team'} · {h.institution} · Submitted {dateTime(h.submitted_at)} ·{' '}
         {h.is_baseline ? 'Baseline' : 'Reassessment'} · Status <strong>{h.status}</strong>
       </p>
       <p className="small muted">Rule versions: {h.asm_version_id} · {h.scr_version_id} · {h.hga_version_id} · {h.rec_version_id}</p>
@@ -133,9 +135,9 @@ export default async function ReviewDetail({ params, searchParams }: {
           </ol>
           <form action={act} className="row" style={{ marginTop: 16 }}>
             <input type="hidden" name="instanceId" value={id} />
-            {(h.status === 'Complete / Scored' || h.status === 'Revalidated') && <button name="what" value="reviewed">Mark Reviewed</button>}
+            {REVIEWABLE.includes(h.status) && <button name="what" value="reviewed">Mark Reviewed</button>}
             {h.status === 'Reviewed' && <button name="what" value="release" disabled={undecided > 0}>Release to athlete</button>}
-            {h.status === 'Released' && <span className="pill ok">Released {h.released_at ? new Date(h.released_at).toLocaleString('en-US') : ''}</span>}
+            {h.status === 'Released' && <span className="pill ok">Released {dateTime(h.released_at, '')}</span>}
             {h.status === 'Reviewed' && undecided > 0 && <span className="small muted">{undecided} recommendation(s) still need a decision.</span>}
           </form>
         </div>
@@ -283,7 +285,7 @@ export default async function ReviewDetail({ params, searchParams }: {
           <thead><tr><th>When</th><th>By</th><th>Item</th><th>Original</th><th>Corrected</th><th>Reason</th></tr></thead>
           <tbody>{corrections.map((c) => (
             <tr key={c.correction_id}>
-              <td className="small">{new Date(c.corrected_at).toLocaleString('en-US')}</td><td>{c.corrected_by_name}</td><td>{c.item_code}</td>
+              <td className="small">{dateTime(c.corrected_at)}</td><td>{c.corrected_by_name}</td><td>{c.item_code}</td>
               <td>{label(c.item_code, c.original_option_code, c.original_option_codes, c.original_state)}</td>
               <td>{label(c.item_code, c.corrected_option_code, c.corrected_option_codes, c.corrected_state)}</td>
               <td>{c.reason}</td>

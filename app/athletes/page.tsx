@@ -1,11 +1,12 @@
 import { getDb } from '@/src/server/db';
 import { requireUser } from '@/src/server/session';
 import { athleteFilterOptions, searchAthletes, type AthleteFilters } from '@/src/server/history';
-import { OUTCOME_UNKNOWN } from '@/src/server/reassessment';
+import { OUTCOME_UNKNOWN, SEARCHABLE } from '@/src/domain/status';
+import { shortDate } from '@/src/domain/format';
 
 const BANDS = ['Minimal Gap', 'Mild Gap', 'Moderate Gap', 'Significant Gap', 'Critical Gap'];
-const STATUSES = ['In Progress', 'Complete / Scored', 'Reviewed', 'Released', 'Revalidated', 'Correction Required'];
-const fmt = (d: string | null) => (d ? new Date(`${d}T12:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '');
+const STATUSES = SEARCHABLE;
+const fmt = (d: string | null) => shortDate(d);
 
 export default async function Athletes({ searchParams }: { searchParams: Promise<AthleteFilters> }) {
   const u = await requireUser('program_admin', 'health_support');

@@ -4,19 +4,12 @@
 import type { Db } from '../server/db';
 import type { SeedIds } from '../server/seed';
 import { registerAthlete } from '../server/seed';
-import { decideRecommendation, markReviewed, releaseResults, reviewDetail } from '../server/review';
 import { scheduleReassessment } from '../server/reassessment';
 import { draftMaintenance } from '../server/assessment';
-import { takeAssessment } from './harness';
+import { approveAndRelease, takeAssessment } from './harness';
 import { BASE, PROFILES } from './fixtures';
 
-async function release(db: Db, admin: string, instanceId: string) {
-  await markReviewed(db, admin, instanceId);
-  for (const r of (await reviewDetail(db, admin, instanceId))!.recommendations) {
-    await decideRecommendation(db, admin, { recId: r.rec_id, decision: 'approve' });
-  }
-  await releaseResults(db, admin, instanceId);
-}
+const release = approveAndRelease;
 
 async function backdate(db: Db, instanceId: string, days: number) {
   await db.system((tx) => tx.query(

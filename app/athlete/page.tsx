@@ -2,6 +2,7 @@ import { getDb } from '@/src/server/db';
 import { acknowledge, ackStatus, athleteHome } from '@/src/server/assessment';
 import { revalidatePath } from 'next/cache';
 import { requireUser } from '@/src/server/session';
+import { longDate } from '@/src/domain/format';
 
 const MESSAGE: Record<string, string> = {
   'Not Started': 'Your Structured Hydration Assessment is ready to start.',
@@ -28,7 +29,7 @@ export default async function AthleteHome() {
   const needsAck = a.required && !a.acknowledged;
   const reassessmentOpen = Boolean(window) && instance != null && !['Not Started', 'In Progress'].includes(instance.status);
   const status = instance?.status ?? 'Not Started';
-  const until = window ? new Date(`${window.target_end}T12:00:00Z`).toLocaleDateString('en-US', { dateStyle: 'long' }) : '';
+  const until = window ? longDate(window.target_end) : '';
   return (
     <main className="narrow">
       <h1>Hello{profile ? `, ${profile.first_name}` : ''}</h1>
@@ -43,7 +44,7 @@ export default async function AthleteHome() {
           </div>
         )}
         {instance?.draft_expires_at && status === 'In Progress' && (
-          <p className="muted small">Please submit by {new Date(instance.draft_expires_at).toLocaleDateString('en-US', { dateStyle: 'long' })}. Unsubmitted answers are kept for 14 days.</p>
+          <p className="muted small">Please submit by {longDate(instance.draft_expires_at)}. Unsubmitted answers are kept for 14 days.</p>
         )}
         {needsAck && a.required && (
           <form action={ack} className="notice">

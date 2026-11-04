@@ -3,6 +3,7 @@ import type { Db } from '../server/db';
 import { openAssessment, submitAssessment } from '../server/assessment';
 import { uploadRoster } from '../server/roster';
 import { registerAthlete } from '../server/seed';
+import { decideRecommendation, markReviewed, releaseResults, reviewDetail } from '../server/review';
 import type { RawAnswers } from './fixtures';
 
 let counter = 0;
@@ -44,4 +45,13 @@ export async function storedResult(db: Db, instanceId: string) {
       'select outcome, missing_items from validation_result where instance_id = $1 order by checked_at desc limit 1');
     return { inst, cats, hgi, findings, recs, validation };
   });
+}
+
+/** WeCanH2O reviews a record, approves every recommendation and releases it to the athlete. */
+export async function approveAndRelease(db: Db, adminUserId: string, instanceId: string) {
+  await markReviewed(db, adminUserId, instanceId);
+  for (const r of (await reviewDetail(db, adminUserId, instanceId))!.recommendations) {
+    await decideRecommendation(db, adminUserId, { recId: r.rec_id, decision: 'approve' });
+  }
+  await releaseResults(db, adminUserId, instanceId);
 }

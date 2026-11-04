@@ -8,7 +8,7 @@ import { loadRuleSet } from './rules';
 import { scoreInstance, type InstanceRow, type SubmitResult } from './assessment';
 import { checkResponse, normalizeAnswer } from '../engine/scoring';
 
-const CORRECTABLE = ['Complete / Scored', 'Reviewed', 'Released', 'Revalidated'];
+import { CORRECTABLE } from '../domain/status';
 
 async function snapshot(tx: Tx, instanceId: string) {
   const q = (sql: string) => tx.query(sql, [instanceId]).then((r) => r.rows);

@@ -8,8 +8,9 @@ import { PermissionError, requireAdmin } from './roster';
 import { compareAssessments, isComparable, type Snapshot } from '../engine/change';
 
 /** Assessment statuses that hold a valid, scored result. */
-export const SCORED = ['Complete / Scored', 'Reviewed', 'Released', 'Revalidated'];
-export const OUTCOME_UNKNOWN = 'Reassessment Not Completed / Outcome Unknown';
+export { SCORED, OUTCOME_UNKNOWN } from '../domain/status';
+import { SCORED, OUTCOME_UNKNOWN } from '../domain/status';
+import { longDate } from '../domain/format';
 
 const iso = (d: Date) => d.toISOString().slice(0, 10);
 
@@ -54,7 +55,7 @@ export async function scheduleReassessment(db: Db, adminUserId: string, input: S
         `insert into reassessment_schedule (tenant_id, participant_id, program_year_id, target_start, target_end, created_by)
          values ($1, $2, $3, $4, $5, $6) returning schedule_id`,
         [input.tenantId, c.participant_id, c.program_year_id, input.targetStart, input.targetEnd, adminUserId])).rows[0].schedule_id;
-      const fmt = (d: string) => new Date(`${d}T12:00:00Z`).toLocaleDateString('en-US', { dateStyle: 'long' });
+      const fmt = longDate;
       await sendEmail(tx, c.email, 'Your Structured Hydration Assessment reassessment is open', [
         `Hello ${c.first_name},`, '',
         `Your reassessment is open from ${fmt(input.targetStart)} to ${fmt(input.targetEnd)}.`,

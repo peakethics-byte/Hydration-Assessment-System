@@ -4,6 +4,7 @@ import PDFDocument from 'pdfkit';
 import type { AnnualExtra, FormalReport, ReportData } from './reporting';
 import { ANNUAL, NARRATIVE_FIELDS, fmtDate } from './reporting';
 import type { Metric } from '../engine/aggregate';
+import { ofTotal } from '../domain/format';
 
 const NAVY = '#0B3B5C';
 const AQUA = '#0891B2';
@@ -11,7 +12,7 @@ const GREY = '#5B6B78';
 const LINE = '#C9D6DF';
 const M = 54; // page margin
 
-const fmt = (m: Metric) => (m.suppressed ? 'Withheld (privacy)' : `${m.n} of ${m.d} (${m.pct ?? '0.0'}%)`);
+const fmt = (m: Metric) => ofTotal(m);
 
 export function periodLabel(d: ReportData) {
   const q = d.period.type === 'Annual' ? 'Annual' : `Quarter ${d.period.type.slice(1)}`;

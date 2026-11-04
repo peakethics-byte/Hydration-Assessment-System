@@ -1,6 +1,7 @@
 // IHS & Recommendation workflow (F7) and Athlete Results Release (F8).
 // Suggested by Rules Engine -> Reviewed -> Approved -> Assigned / Delivered. All actions run as the
 // reviewer, so row-level security and the database release-gate checks apply on top of these checks.
+import { REVIEWABLE, SCORED } from '../domain/status';
 import type { Db, Tx } from './db';
 import { audit } from './audit';
 import { PermissionError } from './roster';
@@ -29,8 +30,9 @@ export async function reviewQueue(db: Db, userId: string) {
      from assessment_instance i join participant p using (participant_id) join athlete_profile ap using (participant_id)
        join tenant tn on tn.tenant_id = i.tenant_id left join team t on t.team_id = i.team_id
        left join hgi_result h on h.instance_id = i.instance_id
-     where i.status in ('Complete / Scored', 'Revalidated', 'Reviewed', 'Released') and app_is_admin(i.tenant_id)
+     where i.status = any($1) and app_is_admin(i.tenant_id)
      order by (i.status = 'Released'), safety desc, i.submitted_at`,
+    [SCORED],
   )).then((r) => r.rows);
 }
 
@@ -72,7 +74,7 @@ export async function markReviewed(db: Db, userId: string, instanceId: string) {
   const ok = await db.asUser(userId, async (tx) => {
     const inst = await adminInstance(tx, instanceId);
     if (!inst?.is_admin) return false;
-    if (!['Complete / Scored', 'Revalidated'].includes(inst.status)) {
+    if (!REVIEWABLE.includes(inst.status)) {
       throw new PermissionError(`Only a Complete / Scored or Revalidated record can be marked Reviewed (current: ${inst.status}).`);
     }
     await tx.query(`update assessment_instance set status = 'Reviewed', reviewed_at = now() where instance_id = $1`, [instanceId]);

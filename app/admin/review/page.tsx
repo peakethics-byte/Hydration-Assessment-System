@@ -1,6 +1,7 @@
 import { getDb } from '@/src/server/db';
 import { requireUser } from '@/src/server/session';
 import { reviewQueue } from '@/src/server/review';
+import { dateTime } from '@/src/domain/format';
 
 export default async function ReviewQueue() {
   const u = await requireUser('program_admin');
@@ -17,7 +18,7 @@ export default async function ReviewQueue() {
             <tr key={r.instance_id}>
               <td>{r.first_name} {r.last_name}<div className="muted small">{r.athlete_code}</div></td>
               <td>{r.team ?? '-'}<div className="muted small">{r.institution}</div></td>
-              <td>{new Date(r.submitted_at).toLocaleString('en-US')}</td>
+              <td>{dateTime(r.submitted_at)}</td>
               <td>{r.hgi_display ? Number(r.hgi_display).toFixed(1) : '-'}</td>
               <td>{r.band ?? '-'}</td>
               <td>{r.safety > 0 ? <span className="pill safety">{r.safety} safety</span> : '-'}</td>

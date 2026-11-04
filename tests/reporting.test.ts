@@ -5,7 +5,6 @@ import Decimal from 'decimal.js';
 import { openDb, type Db } from '@/src/server/db';
 import { seedDemo, type SeedIds } from '@/src/server/seed';
 import { completeActionItem } from '@/src/server/assessment';
-import { decideRecommendation, markReviewed, releaseResults, reviewDetail } from '@/src/server/review';
 import { closeMissedWindows, scheduleReassessment, OUTCOME_UNKNOWN } from '@/src/server/reassessment';
 import { transferAthlete } from '@/src/server/history';
 import { programPeriods } from '@/src/server/institution';
@@ -19,6 +18,7 @@ import { median, summarize } from '@/src/engine/aggregate';
 import { A_SCR_1_0 } from '@/src/methodology/a-scr-1.0';
 import { PROFILES } from '@/src/testing/fixtures';
 import { newAthlete, takeAssessment } from '@/src/testing/harness';
+import { approveAndRelease } from '@/src/testing/harness';
 
 let db: Db;
 let ids: SeedIds;
@@ -28,13 +28,7 @@ const plusDays = (n: number) => new Date(Date.now() + n * 86_400_000).toISOStrin
 const pidOf = async (userId: string) =>
   (await db.system((tx) => tx.query<{ participant_id: string }>('select participant_id from participant where user_id = $1', [userId]))).rows[0].participant_id;
 
-async function release(instanceId: string) {
-  await markReviewed(db, ids.users.admin, instanceId);
-  for (const r of (await reviewDetail(db, ids.users.admin, instanceId))!.recommendations) {
-    await decideRecommendation(db, ids.users.admin, { recId: r.rec_id, decision: 'approve' });
-  }
-  await releaseResults(db, ids.users.admin, instanceId);
-}
+const release = (instanceId: string) => approveAndRelease(db, ids.users.admin, instanceId);
 
 /** Text runs of an uncompressed PDF (pdfkit writes kerned hex pieces inside TJ arrays). */
 function pdfRuns(pdf: Buffer): string[] {

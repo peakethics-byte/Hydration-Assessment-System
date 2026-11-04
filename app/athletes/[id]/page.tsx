@@ -5,9 +5,10 @@ import { athleteHistory, grantAccess, resolveDuplicate, revokeAccess, transferAt
 import { cancelSchedule, OUTCOME_UNKNOWN, scheduleReassessment, windowSuggestion } from '@/src/server/reassessment';
 import { A_REC_1_0 } from '@/src/methodology/a-rec-1.0';
 import TrendChart from '@/src/ui/TrendChart';
+import { mediumDate } from '@/src/domain/format';
 
 const PATHWAY = Object.fromEntries(A_REC_1_0.pathways.map((p) => [p.code, p.name]));
-const day = (d: string | null) => (d ? new Date(d.length === 10 ? `${d}T12:00:00Z` : d).toLocaleDateString('en-US', { dateStyle: 'medium' }) : '-');
+const day = (d: string | null) => mediumDate(d);
 const num = (v: string | null, dp = 1) => (v == null ? '-' : Number(v).toFixed(dp));
 const signed = (v: string | null) => (v == null ? '-' : `${Number(v) >= 0 ? '+' : ''}${Number(v).toFixed(1)}`);
 

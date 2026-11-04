@@ -1,6 +1,7 @@
 import { getDb } from '@/src/server/db';
 import { requireUser } from '@/src/server/session';
 import { auditLog } from '@/src/server/admin';
+import { dateTime } from '@/src/domain/format';
 
 export default async function Audit() {
   const u = await requireUser('program_admin');
@@ -13,7 +14,7 @@ export default async function Audit() {
         <thead><tr><th>Time</th><th>Who</th><th>Action</th><th>Record</th><th>Change</th><th>Rule version</th></tr></thead>
         <tbody>{rows.map((e) => (
           <tr key={e.event_id}>
-            <td className="small">{new Date(e.created_at).toLocaleString('en-US')}</td>
+            <td className="small">{dateTime(e.created_at)}</td>
             <td>{e.actor ?? 'System'}</td>
             <td>{e.action}</td>
             <td className="small">{e.record_type}</td>

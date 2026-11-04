@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { getDb } from '@/src/server/db';
 import { requireUser } from '@/src/server/session';
 import { adjustPeriod, fmtDate, periodChanges, periodsFor, renewProgramYear, reportTenants, setThreshold, threshold } from '@/src/server/reporting';
+import { dateTime } from '@/src/domain/format';
 
 async function act(form: FormData) {
   'use server';
@@ -96,7 +97,7 @@ export default async function ReportSettings({ searchParams }: { searchParams: P
               <td>{fmtDate(c.old_start)} - {fmtDate(c.old_end)}</td>
               <td>{fmtDate(c.new_start)} - {fmtDate(c.new_end)}</td>
               <td>{c.reason}</td>
-              <td className="cell-sub">{c.display_name} · {new Date(c.changed_at).toLocaleString('en-US')}</td>
+              <td className="cell-sub">{c.display_name} · {dateTime(c.changed_at)}</td>
             </tr>
           ))}
         </tbody>

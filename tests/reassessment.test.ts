@@ -4,7 +4,6 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { openDb, type Db } from '@/src/server/db';
 import { seedDemo, registerAthlete, type SeedIds, DEV_PASSWORD } from '@/src/server/seed';
 import { athleteResult, completeActionItem, draftMaintenance, openAssessment } from '@/src/server/assessment';
-import { decideRecommendation, markReviewed, releaseResults, reviewDetail } from '@/src/server/review';
 import { scheduleReassessment, cancelSchedule, OUTCOME_UNKNOWN } from '@/src/server/reassessment';
 import { athleteHistory, grantAccess, resolveDuplicate, revokeAccess, searchAthletes, transferAthlete } from '@/src/server/history';
 import { correctResponse } from '@/src/server/corrections';
@@ -12,6 +11,7 @@ import { uploadRoster } from '@/src/server/roster';
 import { login } from '@/src/server/auth';
 import { PROFILES } from '@/src/testing/fixtures';
 import { newAthlete, storedResult, takeAssessment } from '@/src/testing/harness';
+import { approveAndRelease } from '@/src/testing/harness';
 
 let db: Db;
 let ids: SeedIds;
@@ -21,13 +21,7 @@ const plusDays = (n: number) => new Date(Date.now() + n * 86_400_000).toISOStrin
 const participantOf = async (userId: string) =>
   (await db.system((tx) => tx.query<{ participant_id: string }>('select participant_id from participant where user_id = $1', [userId]))).rows[0].participant_id;
 
-async function release(instanceId: string) {
-  await markReviewed(db, ids.users.admin, instanceId);
-  for (const r of (await reviewDetail(db, ids.users.admin, instanceId))!.recommendations) {
-    await decideRecommendation(db, ids.users.admin, { recId: r.rec_id, decision: 'approve' });
-  }
-  await releaseResults(db, ids.users.admin, instanceId);
-}
+const release = (instanceId: string) => approveAndRelease(db, ids.users.admin, instanceId);
 
 /** Baseline -> window -> reassessment, returning both instance ids. */
 async function baselineAndReassess(label: string, first: string, second: string, opts: { releaseBaseline?: boolean } = {}) {

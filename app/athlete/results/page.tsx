@@ -4,6 +4,7 @@ import { requireUser } from '@/src/server/session';
 import { A_REC_1_0 } from '@/src/methodology/a-rec-1.0';
 import { revalidatePath } from 'next/cache';
 import HgiRing from '@/src/ui/HgiRing';
+import { longDate } from '@/src/domain/format';
 
 const PATHWAY = Object.fromEntries(A_REC_1_0.pathways.map((p) => [p.code, p.name]));
 
@@ -28,7 +29,7 @@ export default async function Results() {
   return (
     <main className="narrow">
       <h1>My results</h1>
-      <p className="muted small">Shared {r.releasedAt ? new Date(r.releasedAt).toLocaleDateString('en-US', { dateStyle: 'long' }) : ''}. This is not a medical diagnosis.</p>
+      <p className="muted small">Shared {longDate(r.releasedAt, '')}. This is not a medical diagnosis.</p>
       <div className="card gauge">
         <HgiRing value={Number(r.hgiDisplay ?? 0)} />
         <div>

@@ -3,8 +3,9 @@ import { requireUser } from '@/src/server/session';
 import { athleteHome } from '@/src/server/assessment';
 import { athleteHistory } from '@/src/server/history';
 import TrendChart from '@/src/ui/TrendChart';
+import { mediumDate } from '@/src/domain/format';
 
-const day = (d: string | null) => (d ? new Date(d.length === 10 ? `${d}T12:00:00Z` : d).toLocaleDateString('en-US', { dateStyle: 'medium' }) : '-');
+const day = (d: string | null) => mediumDate(d);
 const STATE_TEXT: Record<string, string> = {
   Improved: 'Improved', Resolved: 'No longer a gap', Persistent: 'Still a priority', Worsened: 'Needs more attention', New: 'New',
 };

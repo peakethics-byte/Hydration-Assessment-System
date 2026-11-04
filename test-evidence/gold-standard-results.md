@@ -4,7 +4,7 @@ Environment: Development (local, in-memory PostgreSQL / PGlite)
 Build: wecanh2o-hydration-assessment 1.0.0  
 Rule versions: A-ASM-1.0, A-SCR-1.0, A-HGA-1.0 (DRAFT fixture), A-REC-1.0 (DRAFT fixture)  
 Tester: Automated run, reviewed by Gwen Lavarias  
-Date: 2026-11-02T18:56:30.218Z  
+Date: 2026-11-04T23:19:34.399Z  
 Result: 92 of 92 passed
 
 All fixtures are fictional. Expected values were calculated by hand (Milestone 3 Section 6). Actual values are the stored backend values.
