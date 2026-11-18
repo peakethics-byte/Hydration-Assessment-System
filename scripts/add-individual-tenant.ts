@@ -20,6 +20,6 @@ async function main() {
     }
     console.log('Added the Individual Users group; admin@wecanh2o.test reviews its requests.');
   });
-  await db.pg.close();
+  await db.close();
 }
 main().catch((e) => { console.error(e); process.exit(1); });

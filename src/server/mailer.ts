@@ -1,7 +1,7 @@
 // Transactional email delivery through Resend (https://resend.com). Emails are queued in email_outbox
 // by the business transaction and delivered here after it commits. Without RESEND_API_KEY nothing is
 // sent and rows stay Pending (automated tests run this way).
-import type { PGlite } from '@electric-sql/pglite';
+import type { Db } from './db';
 
 const MAX_ATTEMPTS = 3;
 let running: Promise<void> | null = null;
@@ -37,28 +37,37 @@ async function sendOne(row: { email_id: string; to_email: string; subject: strin
   return data.id ?? null;
 }
 
-async function deliver(pg: PGlite) {
-  const rows = (await pg.query<{ email_id: string; to_email: string; subject: string; body: string; link: string | null; attempts: number }>(
-    `select email_id, to_email, subject, body, link, attempts from email_outbox where status = 'Pending' order by email_id limit 50`,
-  )).rows;
-  for (const row of rows) {
-    try {
-      const id = await sendOne(row);
-      await pg.query(`update email_outbox set status = 'Sent', sent_at = now(), attempts = attempts + 1, provider_message_id = $2, last_error = null where email_id = $1`,
-        [row.email_id, id]);
-    } catch (e) {
-      const failed = row.attempts + 1 >= MAX_ATTEMPTS;
-      await pg.query(`update email_outbox set attempts = attempts + 1, last_error = $2, status = $3 where email_id = $1`,
-        [row.email_id, (e as Error).message.slice(0, 500), failed ? 'Failed' : 'Pending']);
-      console.error(`[email] delivery to ${row.to_email} failed: ${(e as Error).message}`);
-    }
+type Row = { email_id: string; to_email: string; subject: string; body: string; link: string | null; attempts: number };
+
+/** Sends pending emails. Each one is claimed with a row lock first, so two servers never send the same email. */
+async function deliver(db: Db) {
+  for (let i = 0; i < 50; i++) {
+    const more = await db.raw(async (tx) => {
+      const row = (await tx.query<Row>(
+        `select email_id, to_email, subject, body, link, attempts from email_outbox where status = 'Pending'
+         order by email_id limit 1 for update skip locked`)).rows[0];
+      if (!row) return false;
+      try {
+        const id = await sendOne(row);
+        await tx.query(`update email_outbox set status = 'Sent', sent_at = now(), attempts = attempts + 1, provider_message_id = $2, last_error = null where email_id = $1`,
+          [row.email_id, id]);
+      } catch (e) {
+        const failed = row.attempts + 1 >= MAX_ATTEMPTS;
+        await tx.query(`update email_outbox set attempts = attempts + 1, last_error = $2, status = $3 where email_id = $1`,
+          [row.email_id, (e as Error).message.slice(0, 500), failed ? 'Failed' : 'Pending']);
+        console.error(`[email] delivery to ${row.to_email} failed: ${(e as Error).message}`);
+        if (!failed) return false; // try this one again on the next delivery run
+      }
+      return true;
+    });
+    if (!more) break;
   }
 }
 
 /** Delivers queued emails after a transaction commits. Runs one batch at a time; never throws. */
-export function deliverQueuedEmails(pg: PGlite): Promise<void> {
+export function deliverQueuedEmails(db: Db): Promise<void> {
   if (!configured()) return Promise.resolve(); // rows stay Pending until a provider is configured
   if (running) return running;
-  running = deliver(pg).catch((e) => console.error('[email] delivery error', e)).finally(() => { running = null; });
+  running = deliver(db).catch((e) => console.error('[email] delivery error', e)).finally(() => { running = null; });
   return running;
 }

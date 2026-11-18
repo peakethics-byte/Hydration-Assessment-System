@@ -19,6 +19,6 @@ async function main() {
     for (const p of ps) await afterScored(tx, p.instance_id);
     console.log(`Change analyses refreshed for ${ps.length} athlete(s).`);
   });
-  await db.pg.close();
+  await db.close();
 }
 main().catch((e) => { console.error(e.message ?? e); process.exit(1); });

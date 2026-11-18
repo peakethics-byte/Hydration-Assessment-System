@@ -18,8 +18,8 @@ async function main() {
   await seedHistoryDemo(db, ids); // Milestone 5 demo: an improvement over time and a missed reassessment
   await seedReportDemo(db, ids); // Milestone 6 demo: two teams of six for the dashboard and reports
   // Seed emails go to fictional .test addresses; never deliver them.
-  await db.pg.query(`update email_outbox set status = 'Not sent - no email service configured' where status = 'Pending'`);
-  await db.pg.close();
+  await db.raw((tx) => tx.query(`update email_outbox set status = 'Not sent - no email service configured' where status = 'Pending'`));
+  await db.close();
   console.log(`Database recreated at ${dir} with fictional demo data.`);
   console.log(`All seeded accounts use the test-only password defined in src/server/seed.ts (${DEV_PASSWORD.length} characters).`);
 }

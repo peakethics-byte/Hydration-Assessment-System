@@ -111,6 +111,28 @@ Upgrade an existing local database (keeps your data): stop the app, run `npx tsx
 - Tests: `tests/reporting.test.ts` (Document #5 acceptance tests); `npm run gold` now includes 10 Milestone 6 checks (92 in total).
 - Demo data: `npm run db -- reset` adds two teams of six fictional athletes. The institution leader has no export right by design.
 
+## Hosting (Vercel + Supabase)
+
+The app uses PGlite locally and PostgreSQL on Supabase when `DATABASE_URL` is set. Same migrations, same row-level security.
+
+Vercel environment variables:
+
+| Name | Value |
+|---|---|
+| `DATABASE_URL` | Supabase Transaction pooler connection string (port 6543) |
+| `IDENTITY_PEPPER` | Long random secret; keep it forever (it protects stored identity details) |
+| `APP_BASE_URL` | Public address, e.g. `https://assessment.siplogichydration.com` |
+| `RESEND_API_KEY` | Resend API key |
+| `EMAIL_FROM` | e.g. `WeCanH2O <no-reply@siplogichydration.com>` |
+
+Database commands (run on your computer with `DATABASE_URL` and `IDENTITY_PEPPER` set for that session only):
+
+- `npm run hosted -- migrate` - create or update the tables
+- `npm run hosted -- seed-demo` - fictional demo data, test site only, empty database only
+- `npm run hosted -- status` - migrations and record counts
+
+`npm run check:hosted` runs all gold-standard checks through the hosted driver before a deployment.
+
 ## Code checks
 
 - `npm run lint` (ESLint), `npm run typecheck`, `npm test`, `npm run gold`. The same four run on GitHub for every change (`.github/workflows/ci.yml`).

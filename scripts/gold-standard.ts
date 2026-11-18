@@ -3,7 +3,7 @@
 // stored backend values (TST-002), never screen values.
 import fs from 'node:fs';
 import path from 'node:path';
-import { openDb } from '../src/server/db';
+import { migrate, openDb, openHostedDb } from '../src/server/db';
 import { seedDemo } from '../src/server/seed';
 import { classifyHgi } from '../src/engine/scoring';
 import { A_SCR_1_0 } from '../src/methodology/a-scr-1.0';
@@ -30,7 +30,10 @@ const add = (r: Omit<RecordRow, 'status'>, pass: boolean) => rows.push({ ...r, s
 
 async function main() {
   const startedAt = new Date();
-  const db = await openDb(); // in-memory, fictional data only
+  // In-memory and fictional. CHECK_HOSTED_URL runs the same checks through the hosted PostgreSQL driver.
+  const hostedUrl = process.env.CHECK_HOSTED_URL;
+  const db = hostedUrl ? openHostedDb(hostedUrl) : await openDb();
+  if (hostedUrl) await migrate(db);
   const ids = await seedDemo(db);
   const admin = ids.users.admin;
   const team = ids.teams.trackField;
@@ -266,11 +269,11 @@ async function main() {
   }
 
   // ---- Write the evidence ----
-  const outDir = path.join(process.cwd(), 'test-evidence');
+  const outDir = path.join(process.cwd(), process.env.GOLD_OUT ?? 'test-evidence');
   fs.mkdirSync(outDir, { recursive: true });
   const passed = rows.filter((r) => r.status === 'Passed').length;
   const meta = {
-    environment: 'Development (local, in-memory PostgreSQL / PGlite)',
+    environment: hostedUrl ? 'Hosted driver (node-postgres) against a local PostgreSQL wire server' : 'Development (local, in-memory PostgreSQL / PGlite)',
     build: `wecanh2o-hydration-assessment ${JSON.parse(fs.readFileSync('package.json', 'utf8')).version}`,
     versions: 'A-ASM-1.0, A-SCR-1.0, A-HGA-1.0 (DRAFT fixture), A-REC-1.0 (DRAFT fixture)',
     tester: 'Automated run, reviewed by Gwen Lavarias',
@@ -298,7 +301,7 @@ async function main() {
     '',
   ].join('\n');
   fs.writeFileSync(path.join(outDir, 'gold-standard-results.md'), md);
-  await db.pg.close();
+  await db.close();
   console.log(`${passed} of ${rows.length} gold-standard checks passed. Evidence written to ${outDir}`);
   if (passed !== rows.length) process.exit(1);
 }
